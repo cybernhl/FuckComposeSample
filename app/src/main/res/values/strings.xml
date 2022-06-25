@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">FuckComposeSample</string>
+
+    <string name="bottom_nav_home">首页</string>
+
+    <string name="bottom_nav_square">广场</string>
+
+    <string name="bottom_nav_question_answer">问答</string>
+
+    <string name="bottom_nav_me">我的</string>
+
+
+</resources>
