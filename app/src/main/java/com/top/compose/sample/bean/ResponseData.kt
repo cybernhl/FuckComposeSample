@@ -9,7 +9,7 @@ data class User(
     val email: String,
     val icon: String,
     val id: Int,
-    val nickname: String,
+    val nickname: String = "昵称",
     val publicName: String,
     val token: String,
     val type: Int,

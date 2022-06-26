@@ -1,12 +1,7 @@
 package com.top.compose.sp
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
-import androidx.compose.runtime.*
-import com.top.compose.core.curApplication
-import kotlin.reflect.KProperty
 
 /**
  * @param: null
@@ -15,25 +10,11 @@ import kotlin.reflect.KProperty
  * @author: leo
  * @date: 2022/6/17 14:57
  */
-class ComposeSharePreference : ComposeSharePreferenceInterface {
+class ComposeSharePreference(private var context: Context) : ComposeSharePreferenceInterface {
 
-    private lateinit var context: Context
+    private var preference: SharedPreferences =
+        context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
 
-    private var preference: SharedPreferences
-
-
-    constructor(context: Context) {
-        this.context = context
-        preference = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
-    }
-
-    constructor() {
-        context= curApplication().apply {
-            context
-        }!!
-
-        preference = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
-    }
 
     /**
      * @param:

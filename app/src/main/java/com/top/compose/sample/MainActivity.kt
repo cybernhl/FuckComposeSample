@@ -14,9 +14,9 @@ import com.top.compose.sample.business.main.MainScreen
 import com.top.compose.sample.business.splash.SplashScreen
 import com.top.compose.sample.ui.theme.AppThemeState
 import com.top.compose.sample.ui.theme.SuperHotFixSampleTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-enum class SplashState { Shown, Completed }
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

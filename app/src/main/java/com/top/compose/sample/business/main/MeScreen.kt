@@ -34,9 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.top.compose.sample.R
-import com.top.compose.sample.business.base.TextImage
-import com.top.compose.sample.business.base.TopAppBarCenter
+import com.top.compose.sample.business.login.launchDetailsActivity
 import com.top.compose.sample.vm.LoginViewModel
+import com.top.compose.widget.TextImage
+import com.top.compose.widget.TopAppBarCenter
 
 
 @Preview
@@ -46,15 +47,19 @@ fun MeScreen(viewModel: LoginViewModel = viewModel()) {
     //msg.observeAsState()
     val user by viewModel.user.observeAsState()
 
+    val login: (Int) -> Unit = { viewModel.login() }
 
+    val current = LocalContext.current
     Surface(Modifier.fillMaxSize()) {
-        MeContent(user?.username)
+        MeContent(user?.nickname)
     }
 
 }
 
 @Composable
-fun MeContent(title: String?) {
+fun MeContent(
+    title: String?
+) {
     Column {
         TopAppBarCenter(
             title = {
@@ -89,6 +94,7 @@ fun MeInfo(modifier: Modifier = Modifier, title: String?) {
         mutableStateOf(28.dp)
     }
 
+    val context = LocalContext.current
     Box(
         modifier = modifier.height(220.dp)
     ) {
@@ -105,35 +111,41 @@ fun MeInfo(modifier: Modifier = Modifier, title: String?) {
         ) {
             title?.let {
                 Text(
-                    text = it ,
+                    text = it,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .align(alignment = Alignment.Center)
                         .padding(top = avatarRadius * 1.2f)
                 )
             }
-
         }
 
-        Image(
-            painter = painterResource(R.drawable.android),
-            contentDescription = "",
-            modifier = Modifier
-                .size(avatarRadius * 2f)
-                .align(alignment = Alignment.TopCenter)
-                .clip(shape = RoundedCornerShape(100)),
-            alignment = Alignment.Center,
-            contentScale = ContentScale.Crop
-        )
+        IconButton(modifier = Modifier
+            .size(avatarRadius * 2f)
+            .align(alignment = Alignment.TopCenter)
+            .clip(shape = RoundedCornerShape(100)),
+            onClick = { launchDetailsActivity(context) }) {
+            Image(
+                painter = painterResource(R.drawable.android),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(avatarRadius * 2f)
+                    .align(alignment = Alignment.TopCenter)
+                    .clip(shape = RoundedCornerShape(100)),
+                alignment = Alignment.Center,
+                contentScale = ContentScale.Crop
+            )
+        }
 
         Row(
             verticalAlignment = Alignment.Bottom,
-            modifier = Modifier.padding(
-                top = avatarRadius,
-                bottom = avatarRadius,
-                start = avatarRadius.div(2),
-                end = avatarRadius.div(2)
-            )
+            modifier = Modifier
+                .padding(
+                    top = avatarRadius,
+                    bottom = avatarRadius,
+                    start = avatarRadius.div(2),
+                    end = avatarRadius.div(2)
+                )
                 .fillMaxSize()
         ) {
 

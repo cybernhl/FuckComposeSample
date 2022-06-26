@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.top.compose.sample.vm.LoginViewModel
 
 
 enum class AnimateButtonState {
@@ -32,9 +31,6 @@ fun AnimateButton(emailText: MutableState<String>, passwordText: MutableState<St
         mutableStateOf(AnimateButtonState.Normal)
     }
 
-    val vm by lazy {
-        LoginViewModel()
-    }
 
     val updateTransition = updateTransition(targetState = buttonState, label = "")
     val duration = 600
@@ -82,7 +78,6 @@ fun AnimateButton(emailText: MutableState<String>, passwordText: MutableState<St
             } else {
                 AnimateButtonState.Normal
             }
-            vm.login()
 
         },
         colors = ButtonDefaults.buttonColors(

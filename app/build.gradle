@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -96,5 +98,33 @@ dependencies {
     implementation project(path: ':FuckComposeLibrary')
 
     implementation 'androidx.compose.runtime:runtime-livedata:1.2.0-alpha07'
+
+    //implementation 'com.google.dagger:dagger-android:2.35.1'
+    // if you use the support libraries(就是你需要v4.Fragment就需要加上support包)
+    //implementation 'com.google.dagger:dagger-android-support:2.24'
+    //annotationProcessor 'com.google.dagger:dagger-compiler:2.42'
+    //annotationProcessor 'com.google.dagger:dagger-android-processor:2.24'
+
+
+    implementation "com.google.dagger:hilt-android:2.42"
+    kapt "com.google.dagger:hilt-android-compiler:2.42"
+
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1'
+
+    implementation 'androidx.hilt:hilt-common:1.0.0'
+    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-SNAPSHOT'
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+
+//    def daggerVersion = "2.42"
+//
+//    implementation "com.google.dagger:hilt-android-gradle-plugin:$daggerVersion"
+//    implementation "com.google.dagger:hilt-android:$daggerVersion"
+//    implementation "com.google.dagger:hilt-compiler:$daggerVersion"
+//    implementation "com.google.dagger:hilt-android-testing:$daggerVersion"
+//    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+
+    implementation 'com.tencent:mmkv:1.2.13'
+
 
 }

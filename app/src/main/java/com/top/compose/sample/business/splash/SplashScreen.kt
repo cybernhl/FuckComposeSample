@@ -3,14 +3,18 @@ package com.top.compose.sample.business.splash
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
-import com.top.compose.core.curApplication
 import com.top.compose.sample.R
 import com.top.compose.sp.rememberSharePreferenceState
 import com.top.fix.sample.business.ConstantRoute
@@ -22,7 +26,6 @@ fun SplashScreen(
 ) {
 
     val isLogin by rememberSharePreferenceState(
-        curApplication(),
         key = "isLogin",
         defaultValue = false
     )

@@ -3,6 +3,7 @@ package com.top.compose.sp
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 
 
 @Composable
@@ -11,23 +12,21 @@ fun <T> rememberSharePreferenceState(
     defaultValue: T,
     autoSave: Boolean = true
 ): ComposeSharePreferenceMutableState<T> {
-    return rememberSharePreferenceState(null, key, defaultValue, autoSave)
+    val current = LocalContext.current
+    return rememberSharePreferenceState(current, key, defaultValue, autoSave)
 }
 
 
 @Composable
 fun <T> rememberSharePreferenceState(
-    context: Context?,
+    context: Context,
     key: String,
     defaultValue: T,
     autoSave: Boolean = true
 ): ComposeSharePreferenceMutableState<T> {
 
-    val composeSharePreference: ComposeSharePreference = if (context == null) {
-        ComposeSharePreference()
-    } else {
-        ComposeSharePreference(context)
-    }
+    val composeSharePreference = ComposeSharePreference(context)
+
     return remember {
         ComposeSharePreferenceMutableState(
             composeSharePreference,
