@@ -6,7 +6,6 @@ import com.top.compose.sample.domain.WanAndroidClient
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class UserRepository @Inject constructor() {
 
     suspend fun login(userName: String, userPwd: String): User {
