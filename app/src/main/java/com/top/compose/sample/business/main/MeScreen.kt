@@ -32,7 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.top.compose.sample.R
 import com.top.compose.sample.business.login.launchDetailsActivity
 import com.top.compose.sample.vm.LoginViewModel
@@ -42,7 +42,7 @@ import com.top.compose.widget.TopAppBarCenter
 
 @Preview
 @Composable
-fun MeScreen(viewModel: LoginViewModel = viewModel()) {
+fun MeScreen(viewModel: LoginViewModel = hiltViewModel()) {
 
     //msg.observeAsState()
     val user by viewModel.user.observeAsState()
@@ -51,14 +51,17 @@ fun MeScreen(viewModel: LoginViewModel = viewModel()) {
 
     val current = LocalContext.current
     Surface(Modifier.fillMaxSize()) {
-        MeContent(user?.nickname)
+        MeContent(user?.nickname) {
+            login(2)
+        }
     }
 
 }
 
 @Composable
 fun MeContent(
-    title: String?
+    title: String?,
+    onClick: () -> Unit = {}
 ) {
     Column {
         TopAppBarCenter(
@@ -66,7 +69,7 @@ fun MeContent(
                 Text(text = stringResource(R.string.bottom_nav_me), color = Color.White)
             },
             actions = {
-                IconButton(onClick = {}) {
+                IconButton(onClick = { onClick() }) {
                     Icon(
                         Icons.Filled.Email, contentDescription = "",
                         tint = Color.White

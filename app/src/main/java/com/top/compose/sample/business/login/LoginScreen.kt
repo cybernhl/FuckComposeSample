@@ -1,149 +1,221 @@
 package com.top.compose.sample.business.login
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.top.compose.icon.FaIcon
+import com.top.compose.icon.FaIcons
 import com.top.compose.sample.R
+import com.top.compose.widget.TopAppBarCenter
 
 @Composable
-fun LoginScreen() {
-    Scaffold(modifier = Modifier.fillMaxSize()) {
+fun LoginScreen(
+    onClick: () -> Unit = {},
+) {
+    TopAppBarCenter(
+        title = {
+            Text(text = stringResource(R.string.login), color = Color.Black)
+        },
+        navigationIcon = {
+            IconButton(onClick = {
+                onClick()
+            }) {
+                FaIcon(faIcon = FaIcons.ArrowLeft, tint = Color.Black)
+            }
+        },
+        backgroundColor = Color.White,
+        isImmersive = true
+    ) {
+        LoginContent()
+    }
+}
 
-        Box(modifier = Modifier.fillMaxSize().padding(it), contentAlignment = Alignment.Center) {
+@Composable
+fun LoginContent() {
 
-            Card(
-                modifier = Modifier.background(color = Color.White),
-                elevation = 8.dp,
-                shape = MaterialTheme.shapes.medium
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(12.dp)
+    Scaffold {
+
+        var account by remember {
+            mutableStateOf(TextFieldValue(""))
+        }
+
+        var password by remember {
+            mutableStateOf(TextFieldValue(""))
+        }
+
+        var hasError by remember {
+            mutableStateOf(false)
+        }
+
+        var passwordVisualTransformation by remember {
+            mutableStateOf<VisualTransformation>(
+                PasswordVisualTransformation()
+            )
+        }
+
+        val passwordInteractionState = remember { MutableInteractionSource() }
+        val emailInteractionState = remember { MutableInteractionSource() }
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+        ) {
+            item { Spacer(modifier = Modifier.height(20.dp)) }
+            item { }
+            item {
+                OutlinedTextField(
+                    value = account,
+                    leadingIcon = {
+                        FaIcon(
+                            faIcon = FaIcons.User,
+                            tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                        )
+                    },
+                    maxLines = 1,
+                    isError = hasError,
+                    label = { Text(text = "Account") },
+                    placeholder = { Text(text = "leo94666") },
+                    trailingIcon = {
+
+                    },
+                    onValueChange = {
+                        account = it
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Next
+                    )
+                )
+            }
+            item {
+                OutlinedTextField(
+                    value = password,
+                    leadingIcon = {
+                        FaIcon(
+                            faIcon = FaIcons.Key,
+                            tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                        )
+                    },
+                    trailingIcon = {
+                        if (passwordVisualTransformation != VisualTransformation.None) {
+                            FaIcon(
+                                faIcon = FaIcons.EyeSlash,
+                                tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+                                modifier = Modifier.clickable {
+                                    passwordVisualTransformation =
+                                        if (passwordVisualTransformation != VisualTransformation.None) {
+                                            VisualTransformation.None
+                                        } else {
+                                            PasswordVisualTransformation()
+                                        }
+                                }
+                            )
+                        } else {
+                            FaIcon(
+                                faIcon = FaIcons.Eye,
+                                tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+                                modifier = Modifier.clickable {
+                                    passwordVisualTransformation =
+                                        if (passwordVisualTransformation != VisualTransformation.None) {
+                                            VisualTransformation.None
+                                        } else {
+                                            PasswordVisualTransformation()
+                                        }
+                                }
+                            )
+                        }
+
+                    },
+                    maxLines = 1,
+                    isError = hasError,
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    ),
+                    label = { Text(text = "Password") },
+                    onValueChange = {
+                        password = it
+                    },
+                    interactionSource = passwordInteractionState,
+                    visualTransformation = passwordVisualTransformation,
+                )
+            }
+            item {
+                var loading by remember { mutableStateOf(false) }
+                Button(
+                    onClick = {
+
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp)
+                        .height(50.dp)
+                        .clip(CircleShape)
                 ) {
-                    val emailText = remember {
-                        mutableStateOf("")
+                    if (loading) {
+                        //HorizontalDottedProgressBar()
+                    } else {
+                        Text(text = "Log In")
                     }
-
-                    val passwordText = remember {
-                        mutableStateOf("")
-                    }
-
-                    val colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color.Gray,
-                        unfocusedLabelColor = Color.LightGray,
-                        cursorColor = Color.Blue
+                }
+            }
+            item {
+                Box(modifier = Modifier.padding(vertical = 16.dp)) {
+                    Spacer(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .height(1.dp)
+                            .fillMaxWidth()
+                            .background(Color.LightGray)
                     )
-
-
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_logo),
-                        contentDescription = "",
-                        modifier = Modifier.height(64.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-
                     Text(
-                        text = "账号",
-                        color = Color.Black,
-                        modifier = Modifier.fillMaxWidth(0.85f),
-                        textAlign = TextAlign.Justify
+                        text = "Or register",
+                        color = Color.LightGray,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .background(MaterialTheme.colors.background)
+                            .padding(horizontal = 16.dp)
                     )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    //添加文本框
-                    MyTextField(
-                        value = emailText.value,
-                        colors = colors,
-                        trailingIcon = Icons.Default.Email,
-                        trailingtintIcon = Color.Gray,
-                        modifier = Modifier.fillMaxWidth(0.85f),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Email
-                        ),
-                        onValueChange = {
-                            emailText.value = it
-                        }
+                }
+            }
+            item {
+                OutlinedButton(
+                    onClick = { }, modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                ) {
+                    FaIcon(
+                        faIcon = FaIcons.Facebook,
+                        tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                     )
-
-                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "密码",
-                        color = Color.Black,
-                        modifier = Modifier.fillMaxWidth(0.85f),
-                        textAlign = TextAlign.Left
+                        text = "Sign in with Facebook",
+                        style = MaterialTheme.typography.h6.copy(fontSize = 14.sp),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-                    MyTextField(
-                        value = passwordText.value,
-                        colors = colors,
-                        trailingIcon = Icons.Default.Lock,
-                        trailingtintIcon = Color.Gray,
-                        modifier = Modifier.fillMaxWidth(0.85f),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Password
-                        ),
-                        onValueChange = {
-                            passwordText.value = it
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    AnimateButton(emailText, passwordText)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "忘记密码", color = Color.Black, fontSize = 12.sp)
-
                 }
             }
         }
     }
 }
 
-@Composable
-fun MyTextField(
-    value: String,
-    colors: TextFieldColors,
-    trailingIcon: ImageVector,
-    trailingtintIcon: Color,
-    modifier: Modifier,
-    keyboardOptions: KeyboardOptions,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-    onValueChange: (String) -> Unit
-) {
-    OutlinedTextField(
-        value = value,
-        colors = colors,
-        trailingIcon = {
-            Icon(
-                trailingIcon,
-                contentDescription = "",
-                tint = trailingtintIcon
-            )
-        },
-        modifier = modifier,
-        keyboardOptions = keyboardOptions,
-        singleLine = true,
-        onValueChange = onValueChange
 
-    )
-
-}

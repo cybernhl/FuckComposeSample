@@ -39,7 +39,7 @@ android {
         }
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
     }
     buildFeatures {
         compose true

@@ -38,7 +38,8 @@ object Libs {
         const val appcompat = "androidx.appcompat:appcompat:1.4.1"
 
         object Compose {
-            const val version = "1.2.0-alpha07"
+
+            const val version = "1.1.1"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata:$version"
@@ -58,7 +59,7 @@ object Libs {
             const val uiTestManifest = "androidx.compose.ui:ui-test-manifest:$version"
         }
 
-        object Navigation{
+        object Navigation {
             const val navigationCompose = "androidx.navigation:navigation-compose:2.4.1"
 
         }
@@ -68,7 +69,8 @@ object Libs {
             const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
 
-            const val viewModelSavedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1"
+            const val viewModelSavedState =
+                "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1"
 
             const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
         }
@@ -94,12 +96,23 @@ object Libs {
     }
 
     object Hilt {
-        private const val version = "2.39"
+        private const val version = "2.42"
 
+        //默认配置
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val android = "com.google.dagger:hilt-android:$version"
         const val compiler = "com.google.dagger:hilt-compiler:$version"
-        const val testing = "com.google.dagger:hilt-android-testing:$version"
+        const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0"
+
+
+        //jetpack集成
+        const val hiltLifecycleViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01"
+        const val hiltCompiler = "androidx.hilt:hilt-compiler:1.0.0-alpha01"
+
+
+        object Test {
+            const val testing = "com.google.dagger:hilt-android-testing:$version"
+        }
     }
 
     object accompanist {
