@@ -22,9 +22,7 @@ class LoginActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            LoginScreen() {
-                finish()
-            }
+            LoginScreen(onClick = { finish() })
         }
     }
 

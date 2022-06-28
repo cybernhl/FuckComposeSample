@@ -144,4 +144,12 @@ object ThirdLibs {
     object Tencent {
         const val mmkv = "com.tencent:mmkv:1.2.13"
     }
+
+    object Lottie {
+
+        const val mavenUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+
+        const val lottieCompose = "com.airbnb.android:lottie-compose:5.2.0"
+
+    }
 }

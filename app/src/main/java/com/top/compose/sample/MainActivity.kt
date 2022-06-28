@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Navigation() {
     val rememberNavController = rememberNavController()
-    NavHost(navController = rememberNavController, startDestination = "splash_screen") {
+    NavHost(navController = rememberNavController, startDestination = "main_screen") {
         composable("splash_screen") {
             SplashScreen(navController = rememberNavController)
         }

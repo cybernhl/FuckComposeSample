@@ -112,6 +112,8 @@ dependencies {
 
     implementation ThirdLibs.Tencent.mmkv
 
+    implementation ThirdLibs.Lottie.lottieCompose
+
     implementation project(path: ':FuckComposeLibrary')
 
 

@@ -47,7 +47,11 @@ fun MeScreen(viewModel: LoginViewModel = hiltViewModel()) {
     //msg.observeAsState()
     val user by viewModel.user.observeAsState()
 
-    val login: (Int) -> Unit = { viewModel.login() }
+    val login: (Int) -> Unit = {
+        viewModel.login(
+            "leo94666", "13524653020yANg"
+        )
+    }
 
     val current = LocalContext.current
     Surface(Modifier.fillMaxSize()) {

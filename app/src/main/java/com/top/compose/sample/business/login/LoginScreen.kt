@@ -1,7 +1,6 @@
 package com.top.compose.sample.business.login
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,15 +18,28 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.top.compose.icon.FaIcon
 import com.top.compose.icon.FaIcons
+import com.top.compose.sample.HorizontalDottedProgressBar
 import com.top.compose.sample.R
+import com.top.compose.sample.lottie.LottieLoginAnimation
+import com.top.compose.sample.vm.LoginViewModel
 import com.top.compose.widget.TopAppBarCenter
 
 @Composable
 fun LoginScreen(
     onClick: () -> Unit = {},
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val user by viewModel.user.observeAsState()
+
+    val success by viewModel.success.observeAsState()
+
+    val login: (account: String, password: String) -> Unit = { account, password ->
+        viewModel.login(account, password)
+    }
+
     TopAppBarCenter(
         title = {
             Text(text = stringResource(R.string.login), color = Color.Black)
@@ -41,15 +54,20 @@ fun LoginScreen(
         backgroundColor = Color.White,
         isImmersive = true
     ) {
-        LoginContent()
+        LoginContent(success) { account, password ->
+            login(account, password)
+        }
     }
 }
 
 @Composable
-fun LoginContent() {
+fun LoginContent(
+    success: Boolean? = false,
+    login: (account: String, password: String) -> Unit = { account: String, password: String -> }
+) {
+    var loading by remember { mutableStateOf(success) }
 
     Scaffold {
-
         var account by remember {
             mutableStateOf(TextFieldValue(""))
         }
@@ -76,8 +94,10 @@ fun LoginContent() {
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
         ) {
+            item {
+                LottieLoginAnimation()
+            }
             item { Spacer(modifier = Modifier.height(20.dp)) }
-            item { }
             item {
                 OutlinedTextField(
                     value = account,
@@ -104,6 +124,7 @@ fun LoginContent() {
                     )
                 )
             }
+            item { Spacer(modifier = Modifier.height(2.dp)) }
             item {
                 OutlinedTextField(
                     value = password,
@@ -114,32 +135,27 @@ fun LoginContent() {
                         )
                     },
                     trailingIcon = {
-                        if (passwordVisualTransformation != VisualTransformation.None) {
-                            FaIcon(
-                                faIcon = FaIcons.EyeSlash,
-                                tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
-                                modifier = Modifier.clickable {
-                                    passwordVisualTransformation =
-                                        if (passwordVisualTransformation != VisualTransformation.None) {
-                                            VisualTransformation.None
-                                        } else {
-                                            PasswordVisualTransformation()
-                                        }
+
+                        IconButton(onClick = {
+                            passwordVisualTransformation =
+                                if (passwordVisualTransformation != VisualTransformation.None) {
+                                    VisualTransformation.None
+                                } else {
+                                    PasswordVisualTransformation()
                                 }
-                            )
-                        } else {
-                            FaIcon(
-                                faIcon = FaIcons.Eye,
-                                tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
-                                modifier = Modifier.clickable {
-                                    passwordVisualTransformation =
-                                        if (passwordVisualTransformation != VisualTransformation.None) {
-                                            VisualTransformation.None
-                                        } else {
-                                            PasswordVisualTransformation()
-                                        }
-                                }
-                            )
+                        }) {
+                            if (passwordVisualTransformation != VisualTransformation.None) {
+                                FaIcon(
+                                    faIcon = FaIcons.EyeSlash,
+                                    tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                                )
+                            } else {
+                                FaIcon(
+                                    faIcon = FaIcons.Eye,
+                                    tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                                )
+                            }
+
                         }
 
                     },
@@ -159,10 +175,16 @@ fun LoginContent() {
                 )
             }
             item {
-                var loading by remember { mutableStateOf(false) }
                 Button(
                     onClick = {
-
+                        if (invalidInput(account = account.text, password = password.text)) {
+                            hasError = true
+                            loading = false
+                        } else {
+                            hasError = false
+                            loading = true
+                            login(account.text, password.text)
+                        }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -170,10 +192,10 @@ fun LoginContent() {
                         .height(50.dp)
                         .clip(CircleShape)
                 ) {
-                    if (loading) {
-                        //HorizontalDottedProgressBar()
+                    if (loading == true) {
+                        HorizontalDottedProgressBar()
                     } else {
-                        Text(text = "Log In")
+                        Text(text = "Login")
                     }
                 }
             }
@@ -187,7 +209,7 @@ fun LoginContent() {
                             .background(Color.LightGray)
                     )
                     Text(
-                        text = "Or register",
+                        text = "Or Register",
                         color = Color.LightGray,
                         modifier = Modifier
                             .align(Alignment.Center)
@@ -203,11 +225,11 @@ fun LoginContent() {
                         .height(50.dp)
                 ) {
                     FaIcon(
-                        faIcon = FaIcons.Facebook,
+                        faIcon = FaIcons.Registered,
                         tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                     )
                     Text(
-                        text = "Sign in with Facebook",
+                        text = "Register Account",
                         style = MaterialTheme.typography.h6.copy(fontSize = 14.sp),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
@@ -219,3 +241,4 @@ fun LoginContent() {
 }
 
 
+fun invalidInput(account: String, password: String) = account.isBlank() || password.isBlank()
