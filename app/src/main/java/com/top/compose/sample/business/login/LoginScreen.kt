@@ -29,12 +29,8 @@ import com.top.compose.widget.TopAppBarCenter
 
 @Composable
 fun LoginScreen(
-    onClick: () -> Unit = {},
-    viewModel: LoginViewModel = hiltViewModel()
+    onClick: () -> Unit = {}
 ) {
-
-    val success by viewModel.success.observeAsState()
-
 
     TopAppBarCenter(
         title = {
@@ -50,18 +46,15 @@ fun LoginScreen(
         backgroundColor = Color.White,
         isImmersive = true
     ) {
-        LoginContent(success) { account, password ->
-            viewModel.login(account, password)
-        }
+        LoginContent()
     }
 }
 
 @Composable
 fun LoginContent(
-    success: Boolean? = false,
-    login: (account: String, password: String) -> Unit = { account: String, password: String -> }
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
-    var loading by remember { mutableStateOf(false) }
+    //var loading by remember { mutableStateOf(false) }
 
     var account by remember {
         mutableStateOf(TextFieldValue(""))
@@ -84,10 +77,7 @@ fun LoginContent(
     val passwordInteractionState = remember { MutableInteractionSource() }
     val emailInteractionState = remember { MutableInteractionSource() }
 
-
-    LaunchedEffect(success){
-        loading = success == true
-    }
+    val success by viewModel.success.observeAsState()
 
 
     Scaffold {
@@ -183,11 +173,11 @@ fun LoginContent(
                     onClick = {
                         if (invalidInput(account = account.text, password = password.text)) {
                             hasError = true
-                            loading = false
+                            viewModel.success.value=false
                         } else {
                             hasError = false
-                            loading = true
-                            login(account.text, password.text)
+                            viewModel.success.value=true
+                            viewModel.login(account.text, password.text)
                         }
                     },
                     modifier = Modifier
@@ -196,7 +186,7 @@ fun LoginContent(
                         .height(50.dp)
                         .clip(CircleShape)
                 ) {
-                    if (loading == true) {
+                    if (success == true) {
                         HorizontalDottedProgressBar()
                     } else {
                         Text(text = "Login")

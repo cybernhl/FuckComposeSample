@@ -21,7 +21,6 @@ class LoginViewModel @Inject constructor(
 
 
     fun login(account: String, password: String) {
-        success.postValue(true)
         viewModelScope.launch {
             runCatching {
                 accountRepositoryImpl.login(account, password)
