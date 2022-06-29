@@ -1,4 +1,4 @@
-package com.top.compose.sample.bean
+package com.top.compose.sample.domain
 
 enum class Error(private val code: Int, private val err: String) {
 

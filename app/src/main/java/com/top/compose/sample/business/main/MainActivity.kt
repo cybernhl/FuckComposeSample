@@ -1,4 +1,4 @@
-package com.top.compose.sample
+package com.top.compose.sample.business.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.top.compose.sample.business.login.LoginScreen
-import com.top.compose.sample.business.main.MainScreen
 import com.top.compose.sample.business.splash.SplashScreen
 import com.top.compose.sample.ui.theme.AppThemeState
 import com.top.compose.sample.ui.theme.SuperHotFixSampleTheme
@@ -41,7 +40,7 @@ fun Navigation() {
             SplashScreen(navController = rememberNavController)
         }
         composable(ConstantRoute.LOGIN_SCREEN) {
-            LoginScreen()
+            LoginScreen(rememberNavController)
         }
         composable(ConstantRoute.MAIN_SCREEN) {
             MainScreen(appThemeState = AppThemeState(false), Modifier)

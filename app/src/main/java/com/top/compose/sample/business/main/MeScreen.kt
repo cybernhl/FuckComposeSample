@@ -1,7 +1,6 @@
 package com.top.compose.sample.business.main
 
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -23,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,8 +33,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.top.compose.sample.R
 import com.top.compose.sample.business.login.launchDetailsActivity
-import com.top.compose.sample.lottie.LottieAnimationImage
-import com.top.compose.sample.vm.LoginViewModel
+import com.top.compose.sample.ui.lottie.LottieAnimationImage
+import com.top.compose.sample.business.viewmodel.LoginViewModel
 import com.top.compose.widget.TextImage
 import com.top.compose.widget.TopAppBarCenter
 

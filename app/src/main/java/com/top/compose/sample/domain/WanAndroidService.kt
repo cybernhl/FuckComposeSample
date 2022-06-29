@@ -1,6 +1,5 @@
 package com.top.compose.sample.domain
 
-import com.top.compose.sample.bean.TResponse
 import com.top.compose.sample.bean.User
 import retrofit2.Call
 import retrofit2.http.Field
@@ -13,7 +12,7 @@ import retrofit2.http.POST
 interface WanAndroidService {
 
 
-    @POST("user/login")
+    @POST("user/loginj")
     @FormUrlEncoded
     suspend fun login(
         @Field("username") username: String,
@@ -26,7 +25,7 @@ interface WanAndroidService {
         @Field("username") username: String,
         @Field("password") password: String,
         @Field("repassword") repassword: String
-    ): Call<String>
+    ): TResponse<User>
 
     @GET("user/logout/json")
     @FormUrlEncoded

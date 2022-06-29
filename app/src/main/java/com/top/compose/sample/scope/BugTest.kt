@@ -1,4 +1,4 @@
-package com.top.compose.sample
+package com.top.compose.sample.scope
 
 class BugTest {
 

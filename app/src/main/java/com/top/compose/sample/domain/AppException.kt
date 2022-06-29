@@ -1,4 +1,4 @@
-package com.top.compose.sample.bean
+package com.top.compose.sample.domain
 
 class AppException : Exception {
     var errorMsg: String //错误消息

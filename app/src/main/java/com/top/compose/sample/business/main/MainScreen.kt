@@ -52,8 +52,8 @@ fun HomeScreenContent(
         Crossfade(homeScreen) { screen ->
             Surface(color = MaterialTheme.colors.background) {
                 when (screen) {
-                    BottomNavType.HOME -> EmptyScreen("主页")
-                    BottomNavType.SQUARE -> EmptyScreen("广场")
+                    BottomNavType.HOME -> HomeScreen("主页")
+                    BottomNavType.SQUARE -> SquareScreen("广场")
                     BottomNavType.QUESTION_ANSWER -> EmptyScreen("问答")
                     BottomNavType.ME -> MeScreen()
                 }

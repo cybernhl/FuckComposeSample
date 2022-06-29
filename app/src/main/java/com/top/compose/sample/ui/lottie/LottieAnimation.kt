@@ -1,9 +1,8 @@
-package com.top.compose.sample.lottie
+package com.top.compose.sample.ui.lottie
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,14 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
+import com.airbnb.lottie.compose.*
 import com.top.compose.sample.R
-import com.top.fix.sample.business.ConstantRoute
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 
 
 @Composable
@@ -56,7 +49,23 @@ fun LottieLoginAnimation() {
         modifier = Modifier
             .fillMaxWidth()
             .height(250.dp),
-        restartOnPlay = true
+        restartOnPlay = true,
+        iterations = LottieConstants.IterateForever
+
+    )
+}
+
+@Composable
+fun LottieRegisterAnimation() {
+    val lottieComposition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.register_no))
+
+    LottieAnimation(
+        composition = lottieComposition,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp),
+        restartOnPlay = true,
+        iterations = LottieConstants.IterateForever
     )
 }
 

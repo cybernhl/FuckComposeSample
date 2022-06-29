@@ -70,12 +70,31 @@ object Libs {
 
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
 
-            const val viewModelSavedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1"
+            const val viewModelSavedState =
+                "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1"
 
-            const val lifecycleLivedataKtx ="androidx.lifecycle:lifecycle-livedata-ktx:$version"
+            const val lifecycleLivedataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$version"
 
 
             const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
+        }
+
+        object DataStore {
+            const val preferences = "androidx.datastore:datastore-preferences:1.0.0"
+
+            // optional - RxJava2 support
+            const val preferencesRxjava2 = "androidx.datastore:datastore-preferences-rxjava2:1.0.0"
+
+            // optional - RxJava3 support
+            const val preferencesRxjava3 = "androidx.datastore:datastore-preferences-rxjava3:1.0.0"
+
+            const val datastore = "androidx.datastore:datastore:1.0.0"
+
+            // optional - RxJava2 support
+            const val datastoreRxJava2 = "androidx.datastore:datastore-rxjava2:1.0.0"
+
+            // optional - RxJava3 support
+            const val datastoreRxJava3 = "androidx.datastore:datastore-rxjava3:1.0.0"
         }
 
         object Test {

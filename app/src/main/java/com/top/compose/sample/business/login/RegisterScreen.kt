@@ -27,19 +27,18 @@ import com.top.compose.icon.FaIcons
 import com.top.compose.sample.HorizontalDottedProgressBar
 import com.top.compose.sample.R
 import com.top.compose.sample.business.viewmodel.LoginViewModel
-import com.top.compose.sample.ui.lottie.LottieLoginAnimation
+import com.top.compose.sample.ui.lottie.LottieRegisterAnimation
 import com.top.compose.widget.TopAppBarCenter
-import com.top.fix.sample.business.ConstantRoute
 
 @Composable
-fun LoginScreen(
-    navController: NavHostController,
+fun RegisterScreen(
+    rememberNavController: NavHostController,
     onClick: () -> Unit = {}
 ) {
 
     TopAppBarCenter(
         title = {
-            Text(text = stringResource(R.string.login), color = Color.Black)
+            Text(text = stringResource(R.string.register), color = Color.Black)
         },
         navigationIcon = {
             IconButton(onClick = {
@@ -51,13 +50,13 @@ fun LoginScreen(
         backgroundColor = Color.White,
         isImmersive = true
     ) {
-        LoginContent(navController)
+        RegisterContent(rememberNavController)
     }
 }
 
 @Composable
-fun LoginContent(
-    navController: NavHostController,
+fun RegisterContent(
+    rememberNavController: NavHostController,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     var account by remember {
@@ -67,6 +66,10 @@ fun LoginContent(
     var password by remember {
         mutableStateOf(TextFieldValue(""))
     }
+    var repassword by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+
 
     var hasError by remember {
         mutableStateOf(false)
@@ -78,9 +81,17 @@ fun LoginContent(
         )
     }
 
-    val passwordInteractionState = remember { MutableInteractionSource() }
-    val emailInteractionState = remember { MutableInteractionSource() }
+    val rePasswordInteractionState = remember { MutableInteractionSource() }
 
+
+
+    var rePasswordVisualTransformation by remember {
+        mutableStateOf<VisualTransformation>(
+            PasswordVisualTransformation()
+        )
+    }
+
+    val passwordInteractionState = remember { MutableInteractionSource() }
     val success by viewModel.success.observeAsState()
 
 
@@ -91,7 +102,7 @@ fun LoginContent(
                 .padding(horizontal = 16.dp)
         ) {
             item {
-                LottieLoginAnimation()
+                LottieRegisterAnimation()
             }
             item { Spacer(modifier = Modifier.height(20.dp)) }
             item {
@@ -160,7 +171,7 @@ fun LoginContent(
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
+                        imeAction = ImeAction.Next
                     ),
                     label = { Text(text = "Password") },
                     onValueChange = {
@@ -168,6 +179,56 @@ fun LoginContent(
                     },
                     interactionSource = passwordInteractionState,
                     visualTransformation = passwordVisualTransformation,
+                )
+            }
+            item { Spacer(modifier = Modifier.height(2.dp)) }
+            item {
+                OutlinedTextField(
+                    value = repassword,
+                    leadingIcon = {
+                        FaIcon(
+                            faIcon = FaIcons.Key,
+                            tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                        )
+                    },
+                    trailingIcon = {
+
+                        IconButton(onClick = {
+                            rePasswordVisualTransformation =
+                                if (rePasswordVisualTransformation != VisualTransformation.None) {
+                                    VisualTransformation.None
+                                } else {
+                                    PasswordVisualTransformation()
+                                }
+                        }) {
+                            if (rePasswordVisualTransformation != VisualTransformation.None) {
+                                FaIcon(
+                                    faIcon = FaIcons.EyeSlash,
+                                    tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                                )
+                            } else {
+                                FaIcon(
+                                    faIcon = FaIcons.Eye,
+                                    tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                                )
+                            }
+
+                        }
+
+                    },
+                    maxLines = 1,
+                    isError = hasError,
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    ),
+                    label = { Text(text = "RepeatPassword") },
+                    onValueChange = {
+                        repassword = it
+                    },
+                    interactionSource = rePasswordInteractionState,
+                    visualTransformation = rePasswordVisualTransformation,
                 )
             }
             item {
@@ -191,7 +252,7 @@ fun LoginContent(
                     if (success == true) {
                         HorizontalDottedProgressBar()
                     } else {
-                        Text(text = "Login")
+                        Text(text = "Register")
                     }
                 }
             }
@@ -205,7 +266,7 @@ fun LoginContent(
                             .background(Color.LightGray)
                     )
                     Text(
-                        text = "Or Register",
+                        text = "Or Login",
                         color = Color.LightGray,
                         modifier = Modifier
                             .align(Alignment.Center)
@@ -225,24 +286,17 @@ fun LoginContent(
                         tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                     )
                     ClickableText(
-                        onClick = {
-                            navController.navigate(ConstantRoute.REGISTER_SCREEN)
-                        },
-                        text = AnnotatedString("Register Account"),
+                        text = AnnotatedString("Login Account"),
                         style = MaterialTheme.typography.h6.copy(
                             fontSize = 14.sp,
                             textAlign = TextAlign.Center
                         ),
-
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.CenterVertically)
-                    )
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        rememberNavController.navigateUp()
+                    }
                 }
             }
         }
     }
 }
-
-
-fun invalidInput(account: String, password: String) = account.isBlank() || password.isBlank()

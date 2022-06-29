@@ -1,4 +1,4 @@
-package com.top.compose.sample.vm
+package com.top.compose.sample.business.viewmodel
 
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
@@ -24,6 +24,21 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 accountRepositoryImpl.login(account, password)
+            }.onSuccess {
+                success.postValue(it.isSuccess())
+                user.postValue(it.data)
+            }.onFailure {
+                success.postValue(false)
+                Toast.makeText(curApplication(), it.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+    fun register(account: String, password: String, repassword: String) {
+        viewModelScope.launch {
+            runCatching {
+                accountRepositoryImpl.register(account, password, repassword)
             }.onSuccess {
                 success.postValue(it.isSuccess())
                 user.postValue(it.data)
