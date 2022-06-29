@@ -35,6 +35,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.top.compose.sample.R
 import com.top.compose.sample.business.login.launchDetailsActivity
+import com.top.compose.sample.lottie.LottieAnimationImage
 import com.top.compose.sample.vm.LoginViewModel
 import com.top.compose.widget.TextImage
 import com.top.compose.widget.TopAppBarCenter
@@ -132,15 +133,12 @@ fun MeInfo(modifier: Modifier = Modifier, title: String?) {
             .align(alignment = Alignment.TopCenter)
             .clip(shape = RoundedCornerShape(100)),
             onClick = { launchDetailsActivity(context) }) {
-            Image(
-                painter = painterResource(R.drawable.android),
-                contentDescription = "",
+            LottieAnimationImage(
+                R.raw.android,
                 modifier = Modifier
                     .size(avatarRadius * 2f)
                     .align(alignment = Alignment.TopCenter)
-                    .clip(shape = RoundedCornerShape(100)),
-                alignment = Alignment.Center,
-                contentScale = ContentScale.Crop
+                    .clip(shape = RoundedCornerShape(100))
             )
         }
 

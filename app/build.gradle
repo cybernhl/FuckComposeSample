@@ -77,7 +77,6 @@ dependencies {
     implementation Libs.AndroidX.Compose.constraintlayout
     implementation Libs.AndroidX.Navigation.navigationCompose
 
-    def version = "2.4.1"
     implementation Libs.AndroidX.Lifecycle.runtimeKtx
     implementation Libs.AndroidX.Lifecycle.viewModelCompose
     implementation Libs.AndroidX.Lifecycle.viewModelKtx

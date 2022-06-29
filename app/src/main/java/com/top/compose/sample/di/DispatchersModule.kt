@@ -16,6 +16,8 @@
 
 package com.top.compose.sample.di
 
+import com.google.gson.Gson
+import com.tencent.mmkv.MMKV
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,8 +33,21 @@ class DispatchersModule {
     @Provides
     @DefaultDispatcher
     fun provideDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
+
+    @Provides
+    @DefaultMMKV
+    fun provideDefaultMMKV(): MMKV = MMKV.defaultMMKV()
+
+    @Provides
+    fun provideDefaultGson(): Gson = Gson()
 }
 
 @Retention(AnnotationRetention.BINARY)
 @Qualifier
 annotation class DefaultDispatcher
+
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class DefaultMMKV

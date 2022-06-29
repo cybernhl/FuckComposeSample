@@ -32,13 +32,9 @@ fun LoginScreen(
     onClick: () -> Unit = {},
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    val user by viewModel.user.observeAsState()
 
     val success by viewModel.success.observeAsState()
 
-    val login: (account: String, password: String) -> Unit = { account, password ->
-        viewModel.login(account, password)
-    }
 
     TopAppBarCenter(
         title = {
@@ -55,7 +51,7 @@ fun LoginScreen(
         isImmersive = true
     ) {
         LoginContent(success) { account, password ->
-            login(account, password)
+            viewModel.login(account, password)
         }
     }
 }
@@ -65,29 +61,37 @@ fun LoginContent(
     success: Boolean? = false,
     login: (account: String, password: String) -> Unit = { account: String, password: String -> }
 ) {
-    var loading by remember { mutableStateOf(success) }
+    var loading by remember { mutableStateOf(false) }
+
+    var account by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+
+    var password by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+
+    var hasError by remember {
+        mutableStateOf(false)
+    }
+
+    var passwordVisualTransformation by remember {
+        mutableStateOf<VisualTransformation>(
+            PasswordVisualTransformation()
+        )
+    }
+
+    val passwordInteractionState = remember { MutableInteractionSource() }
+    val emailInteractionState = remember { MutableInteractionSource() }
+
+
+    LaunchedEffect(success){
+        loading = success == true
+    }
+
 
     Scaffold {
-        var account by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
 
-        var password by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-
-        var hasError by remember {
-            mutableStateOf(false)
-        }
-
-        var passwordVisualTransformation by remember {
-            mutableStateOf<VisualTransformation>(
-                PasswordVisualTransformation()
-            )
-        }
-
-        val passwordInteractionState = remember { MutableInteractionSource() }
-        val emailInteractionState = remember { MutableInteractionSource() }
 
         LazyColumn(
             modifier = Modifier

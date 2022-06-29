@@ -14,6 +14,7 @@ import com.top.compose.sample.business.main.MainScreen
 import com.top.compose.sample.business.splash.SplashScreen
 import com.top.compose.sample.ui.theme.AppThemeState
 import com.top.compose.sample.ui.theme.SuperHotFixSampleTheme
+import com.top.fix.sample.business.ConstantRoute
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,8 +22,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//设置沉浸式状态栏
-
+        //设置沉浸式状态栏
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
@@ -36,14 +36,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Navigation() {
     val rememberNavController = rememberNavController()
-    NavHost(navController = rememberNavController, startDestination = "main_screen") {
-        composable("splash_screen") {
+    NavHost(navController = rememberNavController, startDestination = ConstantRoute.SPLASH_SCREEN) {
+        composable(ConstantRoute.SPLASH_SCREEN) {
             SplashScreen(navController = rememberNavController)
         }
-        composable("login_screen") {
+        composable(ConstantRoute.LOGIN_SCREEN) {
             LoginScreen()
         }
-        composable("main_screen") {
+        composable(ConstantRoute.MAIN_SCREEN) {
             MainScreen(appThemeState = AppThemeState(false), Modifier)
         }
     }

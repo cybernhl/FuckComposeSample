@@ -67,10 +67,13 @@ object Libs {
         object Lifecycle {
             private const val version = "2.4.1"
             const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
+
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
 
-            const val viewModelSavedState =
-                "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1"
+            const val viewModelSavedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1"
+
+            const val lifecycleLivedataKtx ="androidx.lifecycle:lifecycle-livedata-ktx:$version"
+
 
             const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
         }
