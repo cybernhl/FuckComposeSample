@@ -1,6 +1,7 @@
 package com.top.compose.sample.business.viewmodel
 
 import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.top.compose.core.BaseViewModel
@@ -57,5 +58,10 @@ class LoginViewModel @Inject constructor(
                 Toast.makeText(curApplication(), it.message, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
+        getUser()
     }
 }
