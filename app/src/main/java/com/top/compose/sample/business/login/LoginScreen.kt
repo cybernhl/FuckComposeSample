@@ -30,14 +30,21 @@ import com.top.compose.sample.R
 import com.top.compose.sample.business.viewmodel.LoginViewModel
 import com.top.compose.sample.ui.lottie.LottieLoginAnimation
 import com.top.compose.widget.TopAppBarCenter
-import com.top.compose.widget.showDialog
 import com.top.fix.sample.business.ConstantRoute
 
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-    onClick: () -> Unit = {}
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
+
+    val isLogin by viewModel.isLogin.observeAsState()
+
+    LaunchedEffect(key1 = isLogin, block = {
+        if (isLogin == true) {
+            navController.popBackStack()
+        }
+    })
 
     TopAppBarCenter(
         title = {
@@ -45,7 +52,7 @@ fun LoginScreen(
         },
         navigationIcon = {
             IconButton(onClick = {
-                onClick()
+                navController.popBackStack()
             }) {
                 FaIcon(faIcon = FaIcons.ArrowLeft, tint = Color.Black)
             }
@@ -82,9 +89,8 @@ fun LoginContent(
     }
 
     val passwordInteractionState = remember { MutableInteractionSource() }
-    val emailInteractionState = remember { MutableInteractionSource() }
 
-    val success by viewModel.success.observeAsState()
+    val loading by viewModel.loading.observeAsState()
 
 
     Scaffold {
@@ -178,10 +184,10 @@ fun LoginContent(
                     onClick = {
                         if (invalidInput(account = account.text, password = password.text)) {
                             hasError = true
-                            viewModel.success.value = false
+                            viewModel.loading.value = false
                         } else {
                             hasError = false
-                            viewModel.success.value = true
+                            viewModel.loading.value = true
                             viewModel.login(account.text, password.text)
                         }
                     },
@@ -191,7 +197,7 @@ fun LoginContent(
                         .height(50.dp)
                         .clip(CircleShape)
                 ) {
-                    if (success == true) {
+                    if (loading == true) {
                         HorizontalDottedProgressBar()
                     } else {
                         Text(text = "Login")

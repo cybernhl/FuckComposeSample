@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.navigation.NavHostController
 import com.top.compose.icon.FaIcon
 import com.top.compose.icon.FaIcons
 import com.top.compose.sample.R
@@ -19,14 +20,14 @@ import com.top.compose.sample.ui.widget.EmptyScreen
 import com.top.compose.sample.ui.widget.RotateIcon
 
 @Composable
-fun MainScreen(appThemeState: AppThemeState, modifier: Modifier) {
+fun MainScreen(navController: NavHostController, appThemeState: AppThemeState, modifier: Modifier) {
 
-    //Default home screen state is always HOME
     val homeScreenState = rememberSaveable { mutableStateOf(BottomNavType.HOME) }
     val bottomNavBarContentDescription = stringResource(id = R.string.app_name)
 
     Column {
         HomeScreenContent(
+            navController = navController,
             homeScreen = homeScreenState.value,
             appThemeState = appThemeState,
             modifier = modifier.weight(1f)
@@ -43,6 +44,7 @@ fun MainScreen(appThemeState: AppThemeState, modifier: Modifier) {
 
 @Composable
 fun HomeScreenContent(
+    navController: NavHostController,
     homeScreen: BottomNavType,
     appThemeState: AppThemeState,
     modifier: Modifier
@@ -55,7 +57,7 @@ fun HomeScreenContent(
                     BottomNavType.HOME -> HomeScreen("主页")
                     BottomNavType.SQUARE -> SquareScreen("广场")
                     BottomNavType.QUESTION_ANSWER -> EmptyScreen("问答")
-                    BottomNavType.ME -> MeScreen()
+                    BottomNavType.ME -> MeScreen(navController)
                 }
             }
         }
@@ -70,7 +72,7 @@ fun BottomNavigationContent(
 ) {
     var animate by remember { mutableStateOf(false) }
 
-    BottomNavigation(modifier  = Modifier.navigationBarsPadding()) {
+    BottomNavigation(modifier = Modifier.navigationBarsPadding()) {
 
         BottomNavigationItem(
             icon = {
@@ -99,7 +101,7 @@ fun BottomNavigationContent(
             selected = homeScreenState.value == BottomNavType.SQUARE,
             onClick = {
                 homeScreenState.value = BottomNavType.SQUARE
-                animate=true
+                animate = true
             },
             label = { Text(text = stringResource(id = R.string.bottom_nav_square)) },
             modifier = Modifier.testTag("bottom_navigation_square")

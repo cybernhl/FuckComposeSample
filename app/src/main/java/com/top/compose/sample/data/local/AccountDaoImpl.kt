@@ -4,7 +4,7 @@ import com.tencent.mmkv.MMKV
 import com.top.compose.sample.bean.User
 import javax.inject.Inject
 
-class AccountDaoImpl : AccountDao {
+class AccountDaoImpl @Inject constructor() : AccountDao {
 
     @Inject
     lateinit var defaultMMKV: MMKV
@@ -19,12 +19,11 @@ class AccountDaoImpl : AccountDao {
     }
 
     override fun getUser(): User? {
-        val user = defaultMMKV.decodeParcelable("User", User::class.java)
 
-        return user
+        return defaultMMKV.decodeParcelable("User", User::class.java)
     }
 
     override fun setUser(user: User) {
-
+        defaultMMKV.encode("User",user)
     }
 }

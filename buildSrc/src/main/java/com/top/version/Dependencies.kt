@@ -118,10 +118,13 @@ object Libs {
     }
 
     object Hilt {
+        //https://dagger.dev/hilt/quick-start
+
         private const val version = "2.42"
 
         //默认配置
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
+
         const val android = "com.google.dagger:hilt-android:$version"
         const val compiler = "com.google.dagger:hilt-compiler:$version"
         const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0"

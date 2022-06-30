@@ -38,6 +38,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    kapt {
+        correctErrorTypes true
+    }
+    hilt {
+        enableAggregatingTask = true
+    }
 
     packagingOptions {
         resources {

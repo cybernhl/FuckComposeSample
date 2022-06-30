@@ -1,9 +1,6 @@
 package com.top.compose.core
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 open class BaseViewModel : LifecycleViewModel() {
 
@@ -22,10 +19,12 @@ open class BaseViewModel : LifecycleViewModel() {
 //        }
 //    }
 
-    val loading: Loading by lazy { Loading() }
+    val loading by lazy { MutableLiveData<Boolean>() }
 
-    inner class Loading {
-        val showLoading by lazy { MutableLiveData<String>() }
-        val dismissLoading by lazy { MutableLiveData<Boolean>() }
-    }
+//    val loading: Loading by lazy { Loading() }
+//
+//    inner class Loading {
+//        val showLoading by lazy { MutableLiveData<String>() }
+//        val dismissLoading by lazy { MutableLiveData<Boolean>() }
+//    }
 }

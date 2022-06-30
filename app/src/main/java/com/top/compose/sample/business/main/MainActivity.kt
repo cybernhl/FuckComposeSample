@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.top.compose.sample.business.login.LoginScreen
+import com.top.compose.sample.business.login.RegisterScreen
 import com.top.compose.sample.business.splash.SplashScreen
 import com.top.compose.sample.ui.theme.AppThemeState
 import com.top.compose.sample.ui.theme.SuperHotFixSampleTheme
@@ -39,11 +40,25 @@ fun Navigation() {
         composable(ConstantRoute.SPLASH_SCREEN) {
             SplashScreen(navController = rememberNavController)
         }
-        composable(ConstantRoute.LOGIN_SCREEN) {
-            LoginScreen(rememberNavController)
-        }
+
         composable(ConstantRoute.MAIN_SCREEN) {
-            MainScreen(appThemeState = AppThemeState(false), Modifier)
+            MainScreen(
+                navController = rememberNavController,
+                appThemeState = AppThemeState(false),
+                modifier = Modifier
+            )
         }
+
+
+
+        composable(ConstantRoute.LOGIN_SCREEN) {
+            LoginScreen(navController = rememberNavController)
+        }
+
+        composable(ConstantRoute.REGISTER_SCREEN) {
+            RegisterScreen(navController = rememberNavController)
+        }
+
+
     }
 }

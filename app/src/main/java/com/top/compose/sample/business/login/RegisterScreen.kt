@@ -29,11 +29,11 @@ import com.top.compose.sample.R
 import com.top.compose.sample.business.viewmodel.LoginViewModel
 import com.top.compose.sample.ui.lottie.LottieRegisterAnimation
 import com.top.compose.widget.TopAppBarCenter
+import com.top.fix.sample.business.ConstantRoute
 
 @Composable
 fun RegisterScreen(
-    rememberNavController: NavHostController,
-    onClick: () -> Unit = {}
+    navController: NavHostController
 ) {
 
     TopAppBarCenter(
@@ -42,7 +42,7 @@ fun RegisterScreen(
         },
         navigationIcon = {
             IconButton(onClick = {
-                onClick()
+                navController.popBackStack(ConstantRoute.MAIN_SCREEN,false)
             }) {
                 FaIcon(faIcon = FaIcons.ArrowLeft, tint = Color.Black)
             }
@@ -50,7 +50,7 @@ fun RegisterScreen(
         backgroundColor = Color.White,
         isImmersive = true
     ) {
-        RegisterContent(rememberNavController)
+        RegisterContent(navController)
     }
 }
 
@@ -84,7 +84,6 @@ fun RegisterContent(
     val rePasswordInteractionState = remember { MutableInteractionSource() }
 
 
-
     var rePasswordVisualTransformation by remember {
         mutableStateOf<VisualTransformation>(
             PasswordVisualTransformation()
@@ -92,7 +91,7 @@ fun RegisterContent(
     }
 
     val passwordInteractionState = remember { MutableInteractionSource() }
-    val success by viewModel.success.observeAsState()
+    val loading by viewModel.loading.observeAsState()
 
 
     Scaffold {
@@ -236,10 +235,10 @@ fun RegisterContent(
                     onClick = {
                         if (invalidInput(account = account.text, password = password.text)) {
                             hasError = true
-                            viewModel.success.value = false
+                            viewModel.loading.value = false
                         } else {
                             hasError = false
-                            viewModel.success.value = true
+                            viewModel.loading.value = true
                             viewModel.login(account.text, password.text)
                         }
                     },
@@ -249,7 +248,7 @@ fun RegisterContent(
                         .height(50.dp)
                         .clip(CircleShape)
                 ) {
-                    if (success == true) {
+                    if (loading == true) {
                         HorizontalDottedProgressBar()
                     } else {
                         Text(text = "Register")

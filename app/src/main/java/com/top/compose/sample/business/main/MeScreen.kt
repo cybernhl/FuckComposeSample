@@ -5,13 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -21,41 +18,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.top.compose.sample.R
-import com.top.compose.sample.business.login.launchDetailsActivity
-import com.top.compose.sample.ui.lottie.LottieAnimationImage
 import com.top.compose.sample.business.viewmodel.LoginViewModel
+import com.top.compose.sample.ui.lottie.LottieAnimationImage
+import com.top.compose.widget.SuperTextView
 import com.top.compose.widget.TextImage
 import com.top.compose.widget.TopAppBarCenter
+import com.top.fix.sample.business.ConstantRoute
 
 
-@Preview
 @Composable
-fun MeScreen(viewModel: LoginViewModel = hiltViewModel()) {
+fun MeScreen(
+    navController: NavHostController,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
 
-    //msg.observeAsState()
     val user by viewModel.user.observeAsState()
 
-    val login: (Int) -> Unit = {
-        viewModel.login(
-            "leo94666", "13524653020yANg"
-        )
-    }
-
-    val current = LocalContext.current
     Surface(Modifier.fillMaxSize()) {
-        MeContent(user?.nickname) {
-            login(2)
+        MeContent(navController, user?.nickname) {
+            viewModel.getUser()
         }
     }
 
@@ -63,6 +52,7 @@ fun MeScreen(viewModel: LoginViewModel = hiltViewModel()) {
 
 @Composable
 fun MeContent(
+    navController: NavHostController,
     title: String?,
     onClick: () -> Unit = {}
 ) {
@@ -84,7 +74,7 @@ fun MeContent(
             isImmersive = true
         ) {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                MeInfo(modifier = Modifier.background(Color.LightGray), title)
+                MeInfo(navController, modifier = Modifier.background(Color.LightGray), title)
 
                 Setting(modifier = Modifier.background(Color.LightGray))
             }
@@ -95,7 +85,10 @@ fun MeContent(
 
 
 @Composable
-fun MeInfo(modifier: Modifier = Modifier, title: String?) {
+fun MeInfo(
+    navController: NavHostController,
+    modifier: Modifier = Modifier, title: String?
+) {
     val avatarRadius by remember {
         mutableStateOf(28.dp)
     }
@@ -130,7 +123,9 @@ fun MeInfo(modifier: Modifier = Modifier, title: String?) {
             .size(avatarRadius * 2f)
             .align(alignment = Alignment.TopCenter)
             .clip(shape = RoundedCornerShape(100)),
-            onClick = { launchDetailsActivity(context) }) {
+            onClick = {
+                navController.navigate(ConstantRoute.LOGIN_SCREEN)
+            }) {
             LottieAnimationImage(
                 R.raw.android,
                 modifier = Modifier
@@ -203,100 +198,6 @@ fun Setting(modifier: Modifier = Modifier) {
                     Toast.makeText(context, "Go", Toast.LENGTH_SHORT).show()
                 }
             )
-        }
-    }
-}
-
-
-@Composable
-fun SuperTextView(
-    modifier: Modifier = Modifier,
-
-    leftImageVector: ImageVector = Icons.Filled.Person,
-    leftTitleString: String = "",
-    centerTitleString: String = "",
-    rightTitleString: String = "",
-    rightImageVector: ImageVector = Icons.Filled.KeyboardArrowRight,
-
-    onClickLeftIcon: () -> Unit = {},
-    onClickLeftTitle: () -> Unit = {},
-    onClickCenterTitle: () -> Unit = {},
-    onClickRightTitle: () -> Unit = {},
-    onClickRightIcon: () -> Unit = {}
-) {
-    Row(
-        modifier = modifier
-            .height(48.dp)
-            .background(Color.White)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start
-    ) {
-        ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-
-            val (leftIcon, leftTitle, centerTitle, rightTitle, rightIcon) = createRefs()
-
-            IconButton(
-                onClick = onClickLeftIcon,
-                modifier = Modifier
-                    .constrainAs(leftIcon) {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                    },
-            ) {
-                Icon(
-                    imageVector = leftImageVector,
-                    contentDescription = "leftIcon",
-                    tint = Color.LightGray
-                )
-            }
-
-            ClickableText(
-                text = AnnotatedString(leftTitleString),
-                modifier = Modifier.constrainAs(leftTitle) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(leftIcon.end)
-                }) {
-                onClickLeftTitle()
-            }
-
-            ClickableText(
-                text = AnnotatedString(centerTitleString),
-                modifier = Modifier.constrainAs(centerTitle) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    centerHorizontallyTo(parent)
-                }) {
-                onClickCenterTitle()
-            }
-
-            ClickableText(
-                text = AnnotatedString(rightTitleString),
-                modifier = Modifier.constrainAs(rightTitle) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(rightIcon.start)
-                }) {
-                onClickRightTitle()
-            }
-
-
-            IconButton(
-                onClick = onClickRightIcon,
-                modifier = Modifier
-                    .constrainAs(rightIcon) {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        end.linkTo(parent.end)
-                    },
-            ) {
-                Icon(
-                    imageVector = rightImageVector,
-                    contentDescription = "rightIcon",
-                    tint = Color.LightGray
-                )
-            }
         }
     }
 }
