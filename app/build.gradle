@@ -106,8 +106,8 @@ dependencies {
     androidTestImplementation Libs.Hilt.android
     androidTestImplementation Libs.Hilt.Test.testing
     kaptAndroidTest Libs.Hilt.compiler
-    //implementation Libs.Hilt.hiltLifecycleViewModel
-    //kapt Libs.Hilt.hiltCompiler
+//    implementation Libs.Hilt.hiltLifecycleViewModel
+//    kapt Libs.Hilt.hiltCompiler
 
     implementation ThirdLibs.Tencent.mmkv
 

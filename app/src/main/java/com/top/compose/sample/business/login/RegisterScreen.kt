@@ -282,7 +282,7 @@ fun RegisterContent(
                         .height(50.dp)
                 ) {
                     FaIcon(
-                        faIcon = FaIcons.Registered,
+                        faIcon = FaIcons.SignInAlt,
                         tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                     )
                     ClickableText(

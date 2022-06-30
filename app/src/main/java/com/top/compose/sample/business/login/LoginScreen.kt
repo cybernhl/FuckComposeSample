@@ -1,5 +1,6 @@
 package com.top.compose.sample.business.login
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -29,6 +30,7 @@ import com.top.compose.sample.R
 import com.top.compose.sample.business.viewmodel.LoginViewModel
 import com.top.compose.sample.ui.lottie.LottieLoginAnimation
 import com.top.compose.widget.TopAppBarCenter
+import com.top.compose.widget.showDialog
 import com.top.fix.sample.business.ConstantRoute
 
 @Composable
@@ -55,6 +57,7 @@ fun LoginScreen(
     }
 }
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun LoginContent(
     navController: NavHostController,

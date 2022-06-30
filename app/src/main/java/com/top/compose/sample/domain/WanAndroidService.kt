@@ -12,7 +12,7 @@ import retrofit2.http.POST
 interface WanAndroidService {
 
 
-    @POST("user/loginj")
+    @POST("user/login")
     @FormUrlEncoded
     suspend fun login(
         @Field("username") username: String,

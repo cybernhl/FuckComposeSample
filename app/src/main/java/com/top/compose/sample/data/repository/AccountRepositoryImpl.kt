@@ -15,7 +15,6 @@ class AccountRepositoryImpl @Inject constructor() : AccountRepository {
 
         val login = wanAndroidService.login(username, password)
 
-
         if (login.isSuccess()) {
             return login
         } else {
@@ -30,7 +29,6 @@ class AccountRepositoryImpl @Inject constructor() : AccountRepository {
         repassword: String
     ): TResponse<User> {
         val register = wanAndroidService.register(username, password, repassword = repassword)
-
 
         if (register.isSuccess()) {
             return register

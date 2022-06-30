@@ -127,7 +127,7 @@ object Libs {
         const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0"
 
 
-        //jetpack集成
+        //jetpack集成,https://developer.android.google.cn/training/dependency-injection/hilt-jetpack#kotlin,已经被移除
         const val hiltLifecycleViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01"
         const val hiltCompiler = "androidx.hilt:hilt-compiler:1.0.0-alpha01"
 
