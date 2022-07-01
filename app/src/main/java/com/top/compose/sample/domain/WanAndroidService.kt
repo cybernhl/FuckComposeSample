@@ -1,5 +1,7 @@
 package com.top.compose.sample.domain
 
+import com.top.compose.sample.bean.Article
+import com.top.compose.sample.bean.Banner
 import com.top.compose.sample.bean.User
 import retrofit2.Call
 import retrofit2.http.*
@@ -36,7 +38,11 @@ interface WanAndroidService {
     @FormUrlEncoded
     fun article(
         @Path("id") id: Int
-    ): TResponse<User>
+    ): TResponse<List<Article>>
 
 
+
+    @GET("banner/json")
+    @FormUrlEncoded
+    fun banner(): TResponse<List<Banner>>
 }

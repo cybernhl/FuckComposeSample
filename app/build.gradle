@@ -118,7 +118,8 @@ dependencies {
     implementation ThirdLibs.Tencent.mmkv
 
     implementation ThirdLibs.Lottie.lottieCompose
-
+    implementation Libs.AndroidX.Paging.pagingRuntime
+    implementation Libs.AndroidX.Paging.pagingCompose
     implementation project(path: ':FuckComposeLibrary')
 
 

@@ -97,6 +97,15 @@ object Libs {
             const val datastoreRxJava3 = "androidx.datastore:datastore-rxjava3:1.0.0"
         }
 
+        object Paging{
+            //https://developer.android.google.cn/jetpack/androidx/releases/paging
+            const val paging_version = "3.1.1"
+
+            const val pagingRuntime = "androidx.paging:paging-runtime:$paging_version"
+            const val pagingCompose = "androidx.paging:paging-compose:1.0.0-alpha15"
+
+        }
+
         object Test {
             const val core = "androidx.test:core:1.4.0"
             const val runner = "androidx.test:runner:1.4.0"
