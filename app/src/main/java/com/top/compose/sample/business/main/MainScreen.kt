@@ -20,14 +20,15 @@ import com.top.compose.sample.ui.widget.EmptyScreen
 import com.top.compose.sample.ui.widget.RotateIcon
 
 @Composable
-fun MainScreen(navController: NavHostController, appThemeState: AppThemeState, modifier: Modifier) {
+fun MainScreen(    onNavigateTo: (String) -> Unit
+                   , appThemeState: AppThemeState, modifier: Modifier) {
 
     val homeScreenState = rememberSaveable { mutableStateOf(BottomNavType.HOME) }
     val bottomNavBarContentDescription = stringResource(id = R.string.app_name)
 
     Column {
         HomeScreenContent(
-            navController = navController,
+            onNavigateTo = onNavigateTo,
             homeScreen = homeScreenState.value,
             appThemeState = appThemeState,
             modifier = modifier.weight(1f)
@@ -44,7 +45,7 @@ fun MainScreen(navController: NavHostController, appThemeState: AppThemeState, m
 
 @Composable
 fun HomeScreenContent(
-    navController: NavHostController,
+    onNavigateTo: (String) -> Unit,
     homeScreen: BottomNavType,
     appThemeState: AppThemeState,
     modifier: Modifier
@@ -57,7 +58,7 @@ fun HomeScreenContent(
                     BottomNavType.HOME -> HomeScreen("主页")
                     BottomNavType.SQUARE -> SquareScreen("广场")
                     BottomNavType.QUESTION_ANSWER -> EmptyScreen("问答")
-                    BottomNavType.ME -> MeScreen(navController)
+                    BottomNavType.ME -> MeScreen(onNavigateTo)
                 }
             }
         }

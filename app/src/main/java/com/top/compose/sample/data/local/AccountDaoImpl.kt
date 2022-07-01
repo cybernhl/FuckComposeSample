@@ -11,10 +11,11 @@ class AccountDaoImpl @Inject constructor() : AccountDao {
 
 
     override fun isLogin(): Boolean {
-        return defaultMMKV.decodeBool("isLogin")
+        return defaultMMKV.decodeBool("isLogin",false)
     }
 
     override fun setLogin(isLogin: Boolean) {
+        defaultMMKV.encode("isLogin",isLogin)
 
     }
 

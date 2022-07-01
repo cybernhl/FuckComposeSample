@@ -25,7 +25,12 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    val isLogin: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLogin: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().also {
+            it.postValue(accountDaoImpl.isLogin())
+        }
+    }
+
 
     fun getUser() = user.postValue(accountDaoImpl.getUser())
 
@@ -39,6 +44,7 @@ class LoginViewModel @Inject constructor(
                 user.postValue(it.data)
                 isLogin.postValue(true)
                 accountDaoImpl.setUser(it.data)
+                accountDaoImpl.setLogin(true)
             }.onFailure {
                 Toast.makeText(curApplication(), it.message, Toast.LENGTH_SHORT).show()
             }

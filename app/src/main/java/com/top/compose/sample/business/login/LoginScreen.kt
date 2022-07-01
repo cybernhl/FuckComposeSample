@@ -34,18 +34,8 @@ import com.top.fix.sample.business.ConstantRoute
 
 @Composable
 fun LoginScreen(
-    navController: NavHostController,
-    viewModel: LoginViewModel = hiltViewModel()
+    navController: NavHostController
 ) {
-
-    val isLogin by viewModel.isLogin.observeAsState()
-
-    LaunchedEffect(key1 = isLogin, block = {
-        if (isLogin == true) {
-            navController.popBackStack()
-        }
-    })
-
     TopAppBarCenter(
         title = {
             Text(text = stringResource(R.string.login), color = Color.Black)

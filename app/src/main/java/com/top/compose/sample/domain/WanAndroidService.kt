@@ -2,10 +2,7 @@ package com.top.compose.sample.domain
 
 import com.top.compose.sample.bean.User
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 //https://www.wanandroid.com/blog/show/2
 //
@@ -32,5 +29,14 @@ interface WanAndroidService {
     fun logout(
         @Field("username") username: String,
         @Field("password") password: String
-    ): Call<String>
+    ): TResponse<User>
+
+
+    @GET("article/list/{id}/json")
+    @FormUrlEncoded
+    fun article(
+        @Path("id") id: Int
+    ): TResponse<User>
+
+
 }

@@ -1,5 +1,6 @@
 import com.top.version.BuildConfig
 import com.top.version.Libs
+import com.top.version.ThirdLibs
 
 plugins {
     id 'com.android.library'
@@ -70,5 +71,10 @@ dependencies {
 
     implementation Libs.accompanist.systemuicontroller
     implementation Libs.accompanist.insets
+
+
+    implementation ThirdLibs.Glide.glide
+    annotationProcessor  ThirdLibs.Glide.glideCompiler
+
 
 }

@@ -2,7 +2,9 @@ package com.top.compose.widget
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -17,22 +19,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun TextImage(painter: Painter, text: String) {
-    Column {
-        Image(
-            painter = painter,
-            contentDescription = "",
-            modifier = Modifier
-                .size(48.dp)
-                .clip(shape = RoundedCornerShape(100)),
-            alignment = Alignment.Center,
-            contentScale = ContentScale.Crop
-        )
-        Text(
-            text,
-            fontSize = 12.sp,
-            modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-        )
+fun TextImage(
+    painter: Painter,
+    text: String,
+    modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.Center
+) {
+    Box(
+        modifier = modifier.padding(10.dp),
+        contentAlignment = contentAlignment,
+    ) {
+        Column {
+            Image(
+                painter = painter,
+                contentDescription = "",
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(shape = RoundedCornerShape(100)),
+                alignment = Alignment.Center,
+                contentScale = ContentScale.Crop
+            )
+            Text(
+                text,
+                fontSize = 12.sp,
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+            )
+        }
     }
 }
 

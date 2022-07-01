@@ -36,6 +36,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Navigation() {
     val rememberNavController = rememberNavController()
+
     NavHost(navController = rememberNavController, startDestination = ConstantRoute.SPLASH_SCREEN) {
         composable(ConstantRoute.SPLASH_SCREEN) {
             SplashScreen(navController = rememberNavController)
@@ -43,9 +44,11 @@ fun Navigation() {
 
         composable(ConstantRoute.MAIN_SCREEN) {
             MainScreen(
-                navController = rememberNavController,
                 appThemeState = AppThemeState(false),
-                modifier = Modifier
+                modifier = Modifier,
+                onNavigateTo = {
+                    rememberNavController.navigate(it)
+                }
             )
         }
 
