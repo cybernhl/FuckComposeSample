@@ -17,6 +17,7 @@
 package com.top.compose.sample.di
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.tencent.mmkv.MMKV
 import dagger.Module
 import dagger.Provides
@@ -31,7 +32,7 @@ class OtherModule {
     fun provideDefaultMMKV(): MMKV = MMKV.defaultMMKV()
 
     @Provides
-    fun provideDefaultGson(): Gson = Gson()
+    fun provideDefaultGson(): Gson = GsonBuilder().disableHtmlEscaping().create()
 }
 
 

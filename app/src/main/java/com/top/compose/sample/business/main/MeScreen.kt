@@ -3,36 +3,32 @@ package com.top.compose.sample.business.main
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.top.compose.sample.R
 import com.top.compose.sample.business.viewmodel.LoginViewModel
-import com.top.compose.sample.ui.lottie.LottieAnimationImage
 import com.top.compose.widget.GlideImage
 import com.top.compose.widget.SuperTextView
-import com.top.compose.widget.TextImage
 import com.top.compose.widget.TopAppBarCenter
 import com.top.fix.sample.business.ConstantRoute
 
@@ -41,33 +37,34 @@ import com.top.fix.sample.business.ConstantRoute
 fun MeScreen(
     onNavigateTo: (String) -> Unit
 ) {
-    Surface(Modifier.fillMaxSize()) {
-        Column(modifier = Modifier.fillMaxSize().fillMaxHeight(1f)) {
-            TopAppBarCenter(
-                title = {
-                    Text(text = stringResource(R.string.bottom_nav_me), color = Color.White)
-                },
-                actions = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            Icons.Filled.Email, contentDescription = "",
-                            tint = Color.White
-                        )
-                    }
-                },
-                backgroundColor = Color.LightGray,
-                isImmersive = true
-            ) {
-                Column(
-                    modifier = Modifier.verticalScroll(rememberScrollState())
-                        .background(Color.LightGray).fillMaxSize()
-                ) {
-                    MeInfo(onNavigateTo, modifier = Modifier.background(Color.LightGray))
-                    Setting(modifier = Modifier.background(Color.LightGray))
-                }
+
+    TopAppBarCenter(
+        title = {
+            Text(text = stringResource(R.string.bottom_nav_me), color = Color.White)
+        },
+        actions = {
+            IconButton(onClick = {}) {
+                Icon(
+                    Icons.Filled.Email, contentDescription = "",
+                    tint = Color.White
+                )
             }
+        },
+        backgroundColor = Color.LightGray,
+        isImmersive = true
+    ) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth(1f)
+                .fillMaxHeight(1f)
+                .background(Color.LightGray)
+        ) {
+            MeInfo(onNavigateTo)
+            Setting()
         }
     }
+
 }
 
 
@@ -155,7 +152,8 @@ fun MeInfo(
             }) {
 
             GlideImage(
-                "https://produceapi.e-lab.cn/image/3a02ae4e53b9b11b0711512bc32c241a.jpg", modifier = Modifier
+                "https://produceapi.e-lab.cn/image/3a02ae4e53b9b11b0711512bc32c241a.jpg",
+                modifier = Modifier
                     .size(avatarRadius * 2f)
                     .align(alignment = Alignment.TopCenter)
                     .clip(shape = RoundedCornerShape(100))
@@ -170,7 +168,11 @@ fun MeInfo(
 fun Setting(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     Box(modifier = modifier.fillMaxSize()) {
-        Column(modifier = Modifier.padding(14.dp).clip(RoundedCornerShape(10.dp))) {
+        Column(
+            modifier = Modifier
+                .padding(14.dp)
+                .clip(RoundedCornerShape(10.dp))
+        ) {
             SuperTextView(
                 leftImageVector = Icons.Default.Close,
                 leftTitleString = "我的积分",

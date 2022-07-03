@@ -34,7 +34,7 @@ fun FaIcon(
 
     BasicText(
         text = faIcon.code.codePointToString(),
-        modifier = Modifier,
+        modifier = modifier,
         style = faTextStyle
     )
 

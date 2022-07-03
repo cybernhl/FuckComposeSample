@@ -104,7 +104,10 @@ dependencies {
 
 
 
+   implementation Libs.accompanist.pager
+//    implementation Libs.accompanist.pagerIndicators
 
+    //implementation "com.google.accompanist:accompanist-pager:0.24.13-rc"
 
     implementation Libs.Hilt.android
     implementation Libs.Hilt.navigation

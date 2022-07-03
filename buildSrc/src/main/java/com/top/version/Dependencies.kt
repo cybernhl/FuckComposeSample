@@ -150,10 +150,15 @@ object Libs {
     }
 
     object accompanist {
-        const val accompanist_version = "0.24.7-alpha"
-        const val systemuicontroller =
-            "com.google.accompanist:accompanist-systemuicontroller:${accompanist_version}"
+        //https://search.maven.org/search?q=g:com.google.accompanist
+        const val accompanist_version = "0.24.13-rc"
+        const val systemuicontroller = "com.google.accompanist:accompanist-systemuicontroller:${accompanist_version}"
         const val insets = "com.google.accompanist:accompanist-insets:$accompanist_version"
+
+
+        const val pager = "com.google.accompanist:accompanist-pager:$accompanist_version"
+        const val pagerIndicators = "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
+
     }
 
     object JUnit {

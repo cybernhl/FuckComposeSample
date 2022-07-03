@@ -112,7 +112,9 @@ fun TopAppBarCenter(
                 }
             }
             Row(
-                Modifier.layoutId("actions").padding(end = 4.dp),
+                Modifier
+                    .layoutId("actions")
+                    .padding(end = 4.dp),
                 content = actions
             )
 

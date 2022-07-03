@@ -9,4 +9,5 @@ data class TResponse<T>(val errorCode: Int, val errorMsg: String, val data: T) :
     override fun getResponseCode(): Int = errorCode
 
     override fun getResponseMsg(): String = errorMsg
+
 }
