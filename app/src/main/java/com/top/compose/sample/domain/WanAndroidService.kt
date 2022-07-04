@@ -4,7 +4,6 @@ import com.top.compose.sample.bean.Article
 import com.top.compose.sample.bean.Banner
 import com.top.compose.sample.bean.HomeArticle
 import com.top.compose.sample.bean.User
-import kotlinx.coroutines.flow.Flow
 import retrofit2.http.*
 
 //https://www.wanandroid.com/blog/show/2
@@ -46,5 +45,5 @@ interface WanAndroidService {
 
 
     @GET("banner/json")
-    fun banner(): Flow<TResponse<List<Banner>>>
+    suspend fun banner(): TResponse<List<Banner>>
 }

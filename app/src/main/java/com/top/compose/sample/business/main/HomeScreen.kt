@@ -10,9 +10,12 @@ import androidx.compose.material.Card
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,8 +24,10 @@ import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
+import coil.compose.AsyncImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 
 import com.top.compose.icon.FaIcon
@@ -33,6 +38,7 @@ import com.top.compose.sample.business.viewmodel.WanAndroidViewModel
 import com.top.compose.sample.ui.theme.Purple700
 import com.top.compose.widget.GlideImage
 import com.top.compose.widget.TopAppBarCenter
+import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen(
@@ -42,7 +48,8 @@ fun HomeScreen(
 
     val articles = viewModel.getArticleData().collectAsLazyPagingItems()
 
-    val banner by viewModel.banner.observeAsState()
+    val banner = viewModel.getBanner().collectAsState(initial = null)
+
     TopAppBarCenter(
         title = {
             Text(text = title, color = Color.White)
@@ -62,12 +69,10 @@ fun HomeScreen(
                 itemsIndexed(articles) { index, data ->
 
                     if (index == 0) {
-                        viewModel.getBanner()
-                        Banner(banner)
+                        Banner(banner.value)
                     } else {
                         HomeArticle(data)
                     }
-
                 }
             })
         }
@@ -82,24 +87,53 @@ fun Banner(banner: List<Banner>?) {
 
     val pagerState = rememberPagerState()
 
+    var currentTime by remember {
+        mutableStateOf(10L)
+    }
+    LaunchedEffect(key1 = currentTime) {
+        delay(3000)
+        if (pagerState.currentPage == Int.MAX_VALUE - 1) {
+            pagerState.animateScrollToPage(0)
+        } else {
+            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+        }
+        currentTime = System.currentTimeMillis()
+    }
+
     HorizontalPager(
         count = banner?.size ?: 0,
         state = pagerState,
-        modifier = Modifier.height(200.dp)
+        modifier = Modifier
+            .height(200.dp)
+            .fillMaxWidth()
+            .padding(horizontal = 14.dp, vertical = 4.dp)
+        //.background(Color.Red)
     ) { page ->
+
         val imagePath = banner?.get(page)?.imagePath
-        val title = banner?.get(page)?.title
-        GlideImage(url = imagePath ?: "")
-        Text(
-            text = title ?: "",
-            modifier = Modifier.fillMaxWidth()
+        Box {
+            //val title = banner?.get(page)?.title
+            AsyncImage(
+                model = imagePath,
+                contentDescription = "",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(
+                        RoundedCornerShape(4.dp)
+                    ),
+                contentScale = ContentScale.Crop
+            )
+        }
+    }
+
+    Box(modifier = Modifier.fillMaxWidth()) {
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            modifier = Modifier.align(alignment = Alignment.BottomCenter)
         )
     }
 
-    // Later, scroll to page 2
-//    scope.launch {
-//        pagerState.scrollToPage(2)
-//    }
+
 }
 
 @Composable

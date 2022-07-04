@@ -8,7 +8,8 @@ import com.top.compose.sample.bean.Banner
 import com.top.compose.sample.business.paging.ArticlePagingSource
 import com.top.compose.sample.domain.WanAndroidService
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class WanAndroidRepositoryImpl @Inject constructor() : WanAndroidRepository {
@@ -24,8 +25,12 @@ class WanAndroidRepositoryImpl @Inject constructor() : WanAndroidRepository {
     }
 
     override fun banner(): Flow<List<Banner>> {
-        return wanAndroidService.banner().map {
-            it.data
+
+        return flow {
+            val data = wanAndroidService.banner().data
+            emit(data)
+        }.catch {
+
         }
     }
 

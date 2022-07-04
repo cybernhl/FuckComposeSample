@@ -102,10 +102,10 @@ dependencies {
     implementation Libs.accompanist.systemuicontroller
     implementation Libs.accompanist.insets
 
+//    implementation Libs.accompanist.coil
 
-
-   implementation Libs.accompanist.pager
-//    implementation Libs.accompanist.pagerIndicators
+    implementation Libs.accompanist.pager
+    implementation Libs.accompanist.pagerIndicators
 
     //implementation "com.google.accompanist:accompanist-pager:0.24.13-rc"
 
@@ -115,8 +115,8 @@ dependencies {
     androidTestImplementation Libs.Hilt.android
     androidTestImplementation Libs.Hilt.Test.testing
     kaptAndroidTest Libs.Hilt.compiler
-//    implementation Libs.Hilt.hiltLifecycleViewModel
-//    kapt Libs.Hilt.hiltCompiler
+    //implementation Libs.Hilt.hiltLifecycleViewModel
+    //kapt Libs.Hilt.hiltCompiler
 
     implementation ThirdLibs.Tencent.mmkv
 
@@ -125,5 +125,6 @@ dependencies {
     implementation Libs.AndroidX.Paging.pagingCompose
     implementation project(path: ':FuckComposeLibrary')
 
+    implementation("io.coil-kt:coil-compose:2.1.0")
 
 }

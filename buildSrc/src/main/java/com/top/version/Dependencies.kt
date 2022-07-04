@@ -97,7 +97,7 @@ object Libs {
             const val datastoreRxJava3 = "androidx.datastore:datastore-rxjava3:1.0.0"
         }
 
-        object Paging{
+        object Paging {
             //https://developer.android.google.cn/jetpack/androidx/releases/paging
             const val paging_version = "3.1.1"
 
@@ -152,12 +152,17 @@ object Libs {
     object accompanist {
         //https://search.maven.org/search?q=g:com.google.accompanist
         const val accompanist_version = "0.24.13-rc"
-        const val systemuicontroller = "com.google.accompanist:accompanist-systemuicontroller:${accompanist_version}"
+        const val systemuicontroller =
+            "com.google.accompanist:accompanist-systemuicontroller:${accompanist_version}"
         const val insets = "com.google.accompanist:accompanist-insets:$accompanist_version"
+
+        //coil是一个图片库，可以用来加载Compose中的远程图片
+       // const val coil = "com.google.accompanist:accompanist-coil:0.15.0"
 
 
         const val pager = "com.google.accompanist:accompanist-pager:$accompanist_version"
-        const val pagerIndicators = "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
+        const val pagerIndicators =
+            "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
 
     }
 

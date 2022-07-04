@@ -10,7 +10,6 @@ import com.top.compose.sample.bean.Banner
 import com.top.compose.sample.data.repository.WanAndroidRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,22 +19,10 @@ class WanAndroidViewModel @Inject constructor(
     BaseViewModel() {
 
 
-    var banner = MutableLiveData<List<Banner>>()
+    var banner = MutableLiveData<Array<Banner>>()
 
     fun getBanner(): Flow<List<Banner>> {
-
-//        viewModelScope.launch {
-//            flow {
-//                emit(wanAndroidRepository.banner())
-//            }.flowOn(Dispatchers.IO).catch { e ->
-//                e.printStackTrace()
-//            }.collect() {
-//                banner.postValue(it)
-//            }
-//        }
-        return wanAndroidRepository.banner().map {
-            it
-        }
+        return wanAndroidRepository.banner()
     }
 
     fun getArticleData(): Flow<PagingData<Article>> {

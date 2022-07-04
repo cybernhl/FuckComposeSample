@@ -9,6 +9,6 @@ interface WanAndroidRepository {
 
     fun article(): Flow<PagingData<Article>>
 
-    fun banner():  Flow<List<Banner>>
+    fun banner(): Flow<List<Banner>>
 
 }
