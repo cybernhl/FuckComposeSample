@@ -92,7 +92,7 @@ fun Banner(banner: List<Banner>?) {
     }
     LaunchedEffect(key1 = currentTime) {
         delay(3000)
-        if (pagerState.currentPage == Int.MAX_VALUE - 1) {
+        if (pagerState.currentPage == banner?.size?.minus(1) ?: 0) {
             pagerState.animateScrollToPage(0)
         } else {
             pagerState.animateScrollToPage(pagerState.currentPage + 1)
