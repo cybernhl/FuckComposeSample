@@ -1,4 +1,4 @@
-package com.top.compose.sample.business.viewmodel
+package com.top.compose.sample.business.login
 
 import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner

@@ -29,6 +29,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.placeholder.placeholder
 
 import com.top.compose.icon.FaIcon
 import com.top.compose.icon.FaIcons
@@ -48,7 +49,9 @@ fun HomeScreen(
 
     val articles = viewModel.getArticleData().collectAsLazyPagingItems()
 
-    val banner = viewModel.getBanner().collectAsState(initial = null)
+    //val banner = viewModel.getBanner().collectAsState(initial = null)
+    val homeUiState by viewModel.uiState.collectAsState()
+    viewModel.getA()
 
     TopAppBarCenter(
         title = {
@@ -67,17 +70,14 @@ fun HomeScreen(
         Column {
             LazyColumn(modifier = Modifier.background(Color.LightGray), content = {
                 itemsIndexed(articles) { index, data ->
-
                     if (index == 0) {
-                        Banner(banner.value)
+                        Banner(homeUiState.banner)
                     } else {
                         HomeArticle(data)
                     }
                 }
             })
         }
-
-
     }
 }
 
@@ -90,15 +90,15 @@ fun Banner(banner: List<Banner>?) {
     var currentTime by remember {
         mutableStateOf(10L)
     }
-    LaunchedEffect(key1 = currentTime) {
-        delay(3000)
-        if (pagerState.currentPage == banner?.size?.minus(1) ?: 0) {
-            pagerState.animateScrollToPage(0)
-        } else {
-            pagerState.animateScrollToPage(pagerState.currentPage + 1)
-        }
-        currentTime = System.currentTimeMillis()
-    }
+//    LaunchedEffect(key1 = currentTime) {
+//        delay(3000)
+//        if (pagerState.currentPage == banner?.size?.minus(1) ?: 0) {
+//            pagerState.animateScrollToPage(0)
+//        } else {
+//            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+//        }
+//        currentTime = System.currentTimeMillis()
+//    }
 
     HorizontalPager(
         count = banner?.size ?: 0,

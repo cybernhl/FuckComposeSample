@@ -150,6 +150,7 @@ object Libs {
     }
 
     object accompanist {
+        //https://google.github.io/accompanist/
         //https://search.maven.org/search?q=g:com.google.accompanist
         const val accompanist_version = "0.24.13-rc"
         const val systemuicontroller =
@@ -157,12 +158,39 @@ object Libs {
         const val insets = "com.google.accompanist:accompanist-insets:$accompanist_version"
 
         //coil是一个图片库，可以用来加载Compose中的远程图片
-       // const val coil = "com.google.accompanist:accompanist-coil:0.15.0"
+        // const val coil = "com.google.accompanist:accompanist-coil:0.15.0"
+
+        const val flowlayout = "com.google.accompanist:accompanist-flowlayout:$accompanist_version"
+
+
+        const val permissions =
+            "com.google.accompanist:accompanist-permissions:$accompanist_version"
+
+
+        const val navigationAnimation =
+            "com.google.accompanist:accompanist-navigation-animation:$accompanist_version"
+
+
+        const val swiperefresh =
+            "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
+
+        // If you're using Material, use accompanist-placeholder-material
+        const val placeholderMaterial =
+            "com.google.accompanist:accompanist-placeholder-material:$accompanist_version"
+
+        // Otherwise use the foundation version
+        const val placeholder =
+            "com.google.accompanist:accompanist-placeholder:$accompanist_version"
 
 
         const val pager = "com.google.accompanist:accompanist-pager:$accompanist_version"
         const val pagerIndicators =
             "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
+
+
+        const val drawablepainter =
+            "com.google.accompanist:accompanist-drawablepainter:$accompanist_version"
+
 
     }
 

@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.top.compose.sample.R
-import com.top.compose.sample.business.viewmodel.LoginViewModel
+import com.top.compose.sample.business.login.LoginViewModel
 import com.top.compose.widget.GlideImage
 import com.top.compose.widget.SuperTextView
 import com.top.compose.widget.TopAppBarCenter

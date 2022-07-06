@@ -103,7 +103,8 @@ dependencies {
     implementation Libs.accompanist.insets
 
 //    implementation Libs.accompanist.coil
-
+    implementation Libs.accompanist.placeholder
+    implementation Libs.accompanist.placeholderMaterial
     implementation Libs.accompanist.pager
     implementation Libs.accompanist.pagerIndicators
 

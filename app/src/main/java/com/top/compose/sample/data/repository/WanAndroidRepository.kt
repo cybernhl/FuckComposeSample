@@ -11,4 +11,7 @@ interface WanAndroidRepository {
 
     fun banner(): Flow<List<Banner>>
 
+    suspend fun bannerr(): List<Banner>
+
+
 }

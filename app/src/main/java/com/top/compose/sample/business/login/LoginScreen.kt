@@ -27,7 +27,6 @@ import com.top.compose.icon.FaIcon
 import com.top.compose.icon.FaIcons
 import com.top.compose.sample.HorizontalDottedProgressBar
 import com.top.compose.sample.R
-import com.top.compose.sample.business.viewmodel.LoginViewModel
 import com.top.compose.sample.ui.lottie.LottieLoginAnimation
 import com.top.compose.widget.TopAppBarCenter
 import com.top.fix.sample.business.ConstantRoute
