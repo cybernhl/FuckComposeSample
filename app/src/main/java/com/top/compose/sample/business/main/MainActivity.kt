@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
@@ -26,15 +29,17 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            FuckComposeSampleTheme {
-                Navigation()
+            val appTheme = remember { mutableStateOf(AppThemeState()) }
+
+            FuckComposeSampleTheme(colorPallet = appTheme.value.pallet) {
+                Navigation(appTheme)
             }
         }
     }
 }
 
 @Composable
-fun Navigation() {
+fun Navigation(appTheme: MutableState<AppThemeState>) {
     val rememberNavController = rememberNavController()
 
     NavHost(navController = rememberNavController, startDestination = ConstantRoute.SPLASH_SCREEN) {
@@ -44,7 +49,7 @@ fun Navigation() {
 
         composable(ConstantRoute.MAIN_SCREEN) {
             MainScreen(
-                appThemeState = AppThemeState(false),
+                appThemeState = appTheme,
                 modifier = Modifier,
                 onNavigateTo = {
                     rememberNavController.navigate(it)

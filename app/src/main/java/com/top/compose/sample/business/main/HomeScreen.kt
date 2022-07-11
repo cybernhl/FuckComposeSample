@@ -2,6 +2,7 @@ package com.top.compose.sample.business.main
 
 import android.text.Html
 import androidx.compose.animation.*
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -14,6 +15,8 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,26 +48,32 @@ import com.top.compose.sample.bean.Article
 import com.top.compose.sample.bean.Banner
 import com.top.compose.sample.bean.HomeArticle
 import com.top.compose.sample.business.viewmodel.WanAndroidViewModel
+import com.top.compose.sample.ui.theme.AppThemeState
+import com.top.compose.sample.ui.theme.ColorPallet
 import com.top.compose.sample.ui.theme.Purple700
 import com.top.compose.widget.GlideImage
 import com.top.compose.widget.TopAppBarCenter
+import com.top.compose.widget.showDialog
 import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     title: String,
-    viewModel: WanAndroidViewModel = hiltViewModel()
+    viewModel: WanAndroidViewModel = hiltViewModel(),
+    appThemeState: MutableState<AppThemeState>
 ) {
 
     //val articles = viewModel.getArticleData().collectAsLazyPagingItems()
 
     val articles = viewModel.articles.collectAsLazyPagingItems()
 
-
     val banner by viewModel.getBanner().collectAsState(initial = null)
 
     val state: LazyListState = rememberLazyListState()
+
+    var showPalletMenu = remember {
+        mutableStateOf(false)
+    }
 
 
     TopAppBarCenter(
@@ -78,7 +87,7 @@ fun HomeScreen(
                 FaIcon(faIcon = FaIcons.Search, tint = Color.White)
             }
             IconButton(onClick = {
-
+                showPalletMenu.value = !showPalletMenu.value
             }) {
                 FaIcon(faIcon = FaIcons.Palette, tint = Color.White)
             }
@@ -87,6 +96,12 @@ fun HomeScreen(
         backgroundColor = Purple700,
         isImmersive = true
     ) {
+
+        showPalletMenu(
+            showPalletMenu = showPalletMenu
+        ) { newPalletSelected ->
+            appThemeState.value = appThemeState.value.copy(pallet = newPalletSelected)
+        }
 
         SwipeRefresh(
             state = rememberSwipeRefreshState((articles.loadState.refresh is LoadState.Loading && articles.itemCount > 0)),
@@ -113,9 +128,9 @@ fun HomeScreen(
                     if (index == 0) {
                         Banner(banner)
                     } else {
-                        HomeArticle(
-                            data
-                        )
+                        HomeArticle(data) {
+
+                        }
                     }
                 }
 
@@ -196,10 +211,11 @@ fun Banner(banner: List<Banner>?) {
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun HomeArticle(data: Article?, modifier: Modifier = Modifier) {
+fun HomeArticle(data: Article?, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     val density = LocalDensity.current
 
-    val animatedProgress = remember { androidx.compose.animation.core.Animatable(initialValue = 0f) }
+    val animatedProgress =
+        remember { androidx.compose.animation.core.Animatable(initialValue = 0f) }
     LaunchedEffect(Unit) {
         animatedProgress.animateTo(
             targetValue = 1f,
@@ -233,7 +249,8 @@ fun HomeArticle(data: Article?, modifier: Modifier = Modifier) {
                             bottom.linkTo(parent.bottom)
                             end.linkTo(parent.end)
                         },
-                    isPraise = data?.zan != 0
+                    isPraise = data?.zan != 0,
+                    onClick = onClick
                 )
 
                 if (!data?.shareUser.isNullOrEmpty()) {
@@ -338,12 +355,12 @@ fun HomeArticle(data: Article?, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Praise(modifier: Modifier = Modifier, isPraise: Boolean = false) {
+fun Praise(modifier: Modifier = Modifier, isPraise: Boolean = false, onClick: () -> Unit) {
     var isPraiseFlag by remember {
         mutableStateOf(isPraise)
     }
     IconButton(
-        onClick = { isPraiseFlag = !isPraiseFlag },
+        onClick = onClick,
         modifier = modifier
     ) {
         if (isPraiseFlag) {
@@ -356,4 +373,42 @@ fun Praise(modifier: Modifier = Modifier, isPraise: Boolean = false) {
             )
         }
     }
+}
+
+
+@Composable
+fun showPalletMenu(
+    showPalletMenu: MutableState<Boolean> = mutableStateOf(false),
+    onPalletChange: (ColorPallet) -> Unit = {}
+) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.TopEnd)
+    ) {
+
+        DropdownMenu(expanded = showPalletMenu.value, onDismissRequest = {
+            showPalletMenu.value = !showPalletMenu.value
+        }) {
+            ColorPallet.values().forEach {
+                DropdownMenuItem(onClick = {
+                    showPalletMenu.value = false
+                    onPalletChange.invoke(it)
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = "",
+                        tint = it.color
+                    )
+                    Text(
+                        text = it.name,
+                        modifier = Modifier.padding(start = 10.dp),
+                        color = it.color
+                    )
+                }
+            }
+        }
+    }
+
+
 }

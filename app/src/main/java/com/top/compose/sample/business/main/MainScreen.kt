@@ -11,7 +11,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.navigation.NavHostController
 import com.top.compose.icon.FaIcon
 import com.top.compose.icon.FaIcons
 import com.top.compose.sample.R
@@ -21,7 +20,7 @@ import com.top.compose.sample.ui.widget.RotateIcon
 
 @Composable
 fun MainScreen(
-    onNavigateTo: (String) -> Unit, appThemeState: AppThemeState, modifier: Modifier
+    onNavigateTo: (String) -> Unit, appThemeState: MutableState<AppThemeState>, modifier: Modifier
 ) {
 
     val homeScreenState = rememberSaveable { mutableStateOf(BottomNavType.HOME) }
@@ -48,7 +47,7 @@ fun MainScreen(
 fun HomeScreenContent(
     onNavigateTo: (String) -> Unit,
     homeScreen: BottomNavType,
-    appThemeState: AppThemeState,
+    appThemeState: MutableState<AppThemeState>,
     modifier: Modifier
 ) {
     //WanAndroidClient.getApiUrl.login("", "")
@@ -56,7 +55,7 @@ fun HomeScreenContent(
         Crossfade(homeScreen) { screen ->
             Surface(color = MaterialTheme.colors.background) {
                 when (screen) {
-                    BottomNavType.HOME -> HomeScreen("主页")
+                    BottomNavType.HOME -> HomeScreen(title = "主页", appThemeState = appThemeState)
                     BottomNavType.SQUARE -> SquareScreen("广场")
                     BottomNavType.QUESTION_ANSWER -> EmptyScreen("问答")
                     BottomNavType.ME -> MeScreen(onNavigateTo)
