@@ -20,7 +20,7 @@ interface WanAndroidService {
 
     @POST("user/register")
     @FormUrlEncoded
-    fun register(
+    suspend fun register(
         @Field("username") username: String,
         @Field("password") password: String,
         @Field("repassword") repassword: String
@@ -28,7 +28,7 @@ interface WanAndroidService {
 
     @GET("user/logout/json")
     @FormUrlEncoded
-    fun logout(
+    suspend fun logout(
         @Field("username") username: String,
         @Field("password") password: String
     ): TResponse<User>

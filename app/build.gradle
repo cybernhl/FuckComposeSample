@@ -79,6 +79,12 @@ dependencies {
     debugImplementation Libs.AndroidX.Compose.tooling
     debugImplementation Libs.AndroidX.Compose.uiTestManifest
 
+    implementation Libs.AndroidX.Compose.swiperefresh
+
+    implementation Libs.AndroidX.Room.runtime
+    kapt Libs.AndroidX.Room.compiler
+    implementation Libs.AndroidX.Room.ktx
+    implementation Libs.AndroidX.Room.paging
 
     implementation Libs.AndroidX.Compose.constraintlayout
     implementation Libs.AndroidX.Navigation.navigationCompose

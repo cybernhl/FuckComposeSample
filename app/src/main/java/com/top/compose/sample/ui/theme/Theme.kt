@@ -17,7 +17,8 @@ private val DarkColorPalette = darkColors(
     onSecondary = Color.White,
     onBackground = Color.White,
     onSurface = Color.White,
-)
+    error = Color.Red
+    )
 
 private val LightColorPalette = lightColors(
     primary = Purple500,
@@ -29,17 +30,25 @@ private val LightColorPalette = lightColors(
     onSecondary = Color.Black,
     onBackground = Color.Black,
     onSurface = Color.Black,
-)
+    error = Color.Red
+    )
+
+enum class ColorPallet {
+    PURPLE, GREEN, ORANGE, BLUE
+}
 
 @Composable
-fun SuperHotFixSampleTheme(
+fun FuckComposeSampleTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    colorPallet: ColorPallet = ColorPallet.GREEN,
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
+
+    val colors = when (colorPallet) {
+        ColorPallet.GREEN -> if (darkTheme) DarkColorPalette else LightColorPalette
+        ColorPallet.PURPLE -> if (darkTheme) DarkColorPalette else LightColorPalette
+        ColorPallet.ORANGE -> if (darkTheme) DarkColorPalette else LightColorPalette
+        ColorPallet.BLUE -> if (darkTheme) DarkColorPalette else LightColorPalette
     }
 
     MaterialTheme(

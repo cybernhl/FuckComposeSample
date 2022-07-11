@@ -1,6 +1,9 @@
 package com.top.compose.sample.business.viewmodel
 
-import androidx.lifecycle.viewModelScope
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.top.compose.core.BaseViewModel
@@ -13,86 +16,66 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-interface HomeUiStateee {
-    val banner: List<Banner>?
-    val article: PagingData<Article>?
+data class HomeUiState(
+    val banners: List<Banner> = mutableListOf(),
+    val articles: List<Article> = mutableListOf()
+)
+
+sealed class HomeUiAction {
+    data class Praise(val id: Int) : HomeUiAction()
 }
 
-sealed interface HomeUiState {
-    val banner: List<Banner>?
-    val article: Flow<PagingData<Article>>?
-}
+private const val VISIBLE_THRESHOLD = 5
+private const val LAST_SEARCH_QUERY: String = "last_search_query"
+private const val DEFAULT_QUERY = "Android"
 
-data class HasData(
-    override val banner: List<Banner>?,
-    override val article: Flow<PagingData<Article>>?
-) : HomeUiState
-
-
-data class HomeViewModelState(
-    val banner: List<Banner>? = mutableListOf(),
-    val article: Flow<PagingData<Article>>? = emptyFlow()
-) {
-    fun toUiState(): HomeUiState = HasData(banner = banner, article = article)
-}
-
-
+//https://www.jianshu.com/p/ead76b6832a4
 @HiltViewModel
-class WanAndroidViewModel @Inject constructor() :
+class WanAndroidViewModel @Inject constructor(
+    val wanAndroidRepository: WanAndroidRepositoryImpl,
+    val savedStateHandle: SavedStateHandle
+) :
     BaseViewModel() {
 
-    private val viewModelState = MutableStateFlow(HomeViewModelState())
 
-    val uiStateee =  viewModelState.asStateFlow()
-
-    val banner: List<Banner>? = null
-
-
-    val uiState = viewModelState
-        .map {
-            it.toUiState()
+    var userName: String?
+        get() {
+            return savedStateHandle.get<String>("Name")
         }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.Eagerly,
-            viewModelState.value.toUiState()
-        )
-
-
-    @Inject
-    lateinit var wanAndroidRepository: WanAndroidRepositoryImpl
-
-
-    fun getBannerr() {
-
-        banner?.asFlow()
-
-        viewModelScope.launch {
-            val banner = wanAndroidRepository.bannerr()
-
-            viewModelState.update {
-                it.copy(banner = banner)
-            }
-
+        set(value) {
+            savedStateHandle.set("Name", value)
         }
+
+    //val state: StateFlow<HomeUiState>
+
+    //val accept: (HomeUiAction) -> Unit
+
+
+    init {
+        getBanner()
     }
 
-    fun getA() {
-        viewModelScope.launch {
-            val banner = wanAndroidRepository.article()
 
-            viewModelState.update {
-                it.copy(banner = null)
-            }
+    //方式1
+    fun getArticleData(): Flow<PagingData<Article>> =
+        wanAndroidRepository.article().cachedIn(viewModelScope)
 
-        }
-    }
+
+    //方式 2
+    val articles: Flow<PagingData<Article>> = Pager(
+        config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+        pagingSourceFactory = { wanAndroidRepository.articlePagingSource() }
+    ).flow.cachedIn(viewModelScope)
+
 
     fun getBanner(): Flow<List<Banner>> {
         return wanAndroidRepository.banner()
     }
 
-    fun getArticleData(): Flow<PagingData<Article>> {
-        return wanAndroidRepository.article().cachedIn(viewModelScope)
+
+    override fun onCleared() {
+        super.onCleared()
     }
+
+
 }

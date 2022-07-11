@@ -53,10 +53,14 @@ object Libs {
             const val ui = "androidx.compose.ui:ui:$version"
 
             const val constraintlayout = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+            const val swiperefresh =  "com.google.accompanist:accompanist-swiperefresh:0.23.1"
 
 
             const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
             const val uiTestManifest = "androidx.compose.ui:ui-test-manifest:$version"
+
+
+
         }
 
         object Navigation {
@@ -104,6 +108,32 @@ object Libs {
             const val pagingRuntime = "androidx.paging:paging-runtime:$paging_version"
             const val pagingCompose = "androidx.paging:paging-compose:1.0.0-alpha15"
 
+        }
+
+        object Room{
+            const val roomVersion = "2.4.2"
+
+            const val runtime = "androidx.room:room-runtime:$roomVersion"
+            const val compiler = "androidx.room:room-compiler:$roomVersion"
+
+
+            // optional - Kotlin Extensions and Coroutines support for Room
+            const val ktx = ("androidx.room:room-ktx:$roomVersion")
+
+            // optional - RxJava2 support for Room
+            const val rxjava2 = ("androidx.room:room-rxjava2:$roomVersion")
+
+            // optional - RxJava3 support for Room
+            const val rxjava3 = ("androidx.room:room-rxjava3:$roomVersion")
+
+            // optional - Guava support for Room, including Optional and ListenableFuture
+            const val guava = ("androidx.room:room-guava:$roomVersion")
+
+            // optional - Test helpers
+            const val testing = ("androidx.room:room-testing:$roomVersion")
+
+            // optional - Paging 3 Integration
+            const val paging = ("androidx.room:room-paging:2.5.0-alpha02")
         }
 
         object Test {
@@ -204,6 +234,11 @@ object Libs {
 object ThirdLibs {
     object OkHttp {
         const val okhttp3 = "com.squareup.okhttp3:okhttp:4.10.0"
+
+        const val  okhttpLoggingInterceptorVersion = "4.9.0"
+
+        const val interceptor =  "com.squareup.okhttp3:logging-interceptor:$okhttpLoggingInterceptorVersion"
+
     }
 
     object Retrofit {

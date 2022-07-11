@@ -20,8 +20,9 @@ import com.top.compose.sample.ui.widget.EmptyScreen
 import com.top.compose.sample.ui.widget.RotateIcon
 
 @Composable
-fun MainScreen(    onNavigateTo: (String) -> Unit
-                   , appThemeState: AppThemeState, modifier: Modifier) {
+fun MainScreen(
+    onNavigateTo: (String) -> Unit, appThemeState: AppThemeState, modifier: Modifier
+) {
 
     val homeScreenState = rememberSaveable { mutableStateOf(BottomNavType.HOME) }
     val bottomNavBarContentDescription = stringResource(id = R.string.app_name)

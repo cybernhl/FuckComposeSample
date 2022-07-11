@@ -1,7 +1,13 @@
 package com.top.compose.sample.bean
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+
 //首页文章、置顶文章
+@Entity(tableName = "articles")
 data class Article(
+    @PrimaryKey val id: Int,
     val apkLink: String,
     val audit: Int,
     val author: String,
@@ -15,7 +21,6 @@ data class Article(
     val envelopePic: String,
     val fresh: Boolean,
     val host: String,
-    val id: Int,
     val link: String,
     val niceDate: String,
     val niceShareDate: String,
@@ -29,7 +34,7 @@ data class Article(
     val shareUser: String,
     val superChapterId: Int,
     val superChapterName: String,
-    val tags: List<Any>,
+   // @TypeConverters(ListTypeConverter::class) var tags: List<Any>,
     val title: String,
     val type: Int,
     val userId: Int,

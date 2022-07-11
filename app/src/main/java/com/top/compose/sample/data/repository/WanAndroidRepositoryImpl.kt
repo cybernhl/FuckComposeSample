@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import com.top.compose.sample.bean.Article
 import com.top.compose.sample.bean.Banner
 import com.top.compose.sample.business.paging.ArticlePagingSource
+import com.top.compose.sample.domain.AppException
 import com.top.compose.sample.domain.WanAndroidService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -18,11 +19,21 @@ class WanAndroidRepositoryImpl @Inject constructor() : WanAndroidRepository {
     lateinit var wanAndroidService: WanAndroidService
 
 
+
+    fun articlePagingSource() = ArticlePagingSource(wanAndroidService)
+
+
+
     override fun article(): Flow<PagingData<Article>> {
         return Pager(
             config = PagingConfig(20),
-            pagingSourceFactory = { ArticlePagingSource(wanAndroidService) }).flow
+            pagingSourceFactory = { ArticlePagingSource(wanAndroidService) }).flow.catch {
+            throw AppException(1003, it.message)
+        }
     }
+
+
+
 
     override fun banner(): Flow<List<Banner>> {
 
@@ -30,13 +41,12 @@ class WanAndroidRepositoryImpl @Inject constructor() : WanAndroidRepository {
             val data = wanAndroidService.banner().data
             emit(data)
         }.catch {
-
+            throw AppException(1002, it.message)
         }
     }
 
     override suspend fun bannerr(): List<Banner> {
         return wanAndroidService.banner().data
-
     }
 
 

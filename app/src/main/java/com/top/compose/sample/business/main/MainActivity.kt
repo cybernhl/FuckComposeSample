@@ -13,7 +13,7 @@ import com.top.compose.sample.business.login.LoginScreen
 import com.top.compose.sample.business.login.RegisterScreen
 import com.top.compose.sample.business.splash.SplashScreen
 import com.top.compose.sample.ui.theme.AppThemeState
-import com.top.compose.sample.ui.theme.SuperHotFixSampleTheme
+import com.top.compose.sample.ui.theme.FuckComposeSampleTheme
 import com.top.fix.sample.business.ConstantRoute
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            SuperHotFixSampleTheme {
+            FuckComposeSampleTheme {
                 Navigation()
             }
         }
