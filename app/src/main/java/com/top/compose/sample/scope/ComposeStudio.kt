@@ -1,16 +1,17 @@
-package com.top.compose.sample.business
+package com.top.compose.sample.scope
 
 import android.annotation.SuppressLint
 import android.widget.Toast
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,8 +32,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.*
+import com.top.compose.icon.FaIcon
+import com.top.compose.icon.FaIcons
 import com.top.compose.sample.R
-import com.top.compose.sample.business.main.Navigation
 import com.top.compose.sample.ui.theme.ColorPallet
 import com.top.compose.sample.ui.theme.FuckComposeSampleTheme
 import kotlinx.coroutines.delay
@@ -42,7 +44,11 @@ import kotlin.random.Random
 @Composable
 fun TwoColorBox() {
 
-    Column(modifier = Modifier.fillMaxSize().padding(10.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp)
+    ) {
         val color = remember {
             mutableStateOf(Color.Cyan)
         }
@@ -85,7 +91,8 @@ fun OneColorBox(modifier: Modifier, updateColor: (Color) -> Unit) {
 @Composable
 fun ModifiersTest() {
     Column(
-        modifier = Modifier.background(Color.Green)
+        modifier = Modifier
+            .background(Color.Green)
             .fillMaxHeight(0.5f)
             //.width(200.dp)
             //.requiredWidth(100.dp)
@@ -148,7 +155,9 @@ fun ImageCard(
                 painter = painter,
                 contentDescription = contentDescription,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(1f).fillMaxHeight(1f)
+                modifier = Modifier
+                    .fillMaxSize(1f)
+                    .fillMaxHeight(1f)
             )
             Box(
                 modifier = Modifier
@@ -286,8 +295,16 @@ fun ConstraintTest() {
         }
 
         ConstraintLayout(constraintSet, modifier = Modifier.fillMaxSize()) {
-            Box(modifier = Modifier.background(Color.Green).layoutId("greenBox"))
-            Box(modifier = Modifier.background(Color.Red).layoutId("redBox"))
+            Box(
+                modifier = Modifier
+                    .background(Color.Green)
+                    .layoutId("greenBox")
+            )
+            Box(
+                modifier = Modifier
+                    .background(Color.Red)
+                    .layoutId("redBox")
+            )
         }
     }
 }
@@ -329,70 +346,259 @@ fun Scaffold() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Preview
 @Composable
 fun JueJin() {
     FuckComposeSampleTheme(colorPallet = ColorPallet.TEST) {
-
-
         val context = LocalContext.current
+        val scaffoldState = rememberScaffoldState()
+        val scope = rememberCoroutineScope()
 
-        Column(modifier = Modifier.fillMaxSize()) {
+        val drawerState = rememberDrawerState(DrawerValue.Closed)
+        val bottomDrawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
 
-            TopAppBar(
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(4.dp)
+
+
+        Scaffold(
+            scaffoldState = scaffoldState,
+            topBar = {
+                TopAppBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(4.dp)
+                ) {
+                    //返回按钮
+                    IconButton(onClick = {
+                        Toast.makeText(context, "返回", Toast.LENGTH_SHORT).show()
+                    }) {
+                        Icon(Icons.Filled.ArrowBack, null)
+                    }
+                    //标题
+                    Text(
+                        "contentPadding的标题",
+                        modifier = Modifier
+                            .fillMaxWidth(0.75f)
+                            .wrapContentSize(Alignment.Center)
+                    )
+                    //右侧分享按钮
+                    IconButton(onClick = {
+                        Toast.makeText(context, "分享", Toast.LENGTH_SHORT).show()
+                    }) {
+                        Icon(Icons.Filled.Share, null)
+                    }
+                    //右侧设置按钮
+                    IconButton(onClick = {
+                        Toast.makeText(context, "设置", Toast.LENGTH_SHORT).show()
+                    }) {
+                        Icon(Icons.Filled.Settings, null)
+                    }
+                }
+            },
+            bottomBar = {
+                BottomAppBar(
+                    cutoutShape = MaterialTheme.shapes.small.copy(
+                        CornerSize(percent = 50)
+                    )
+                ) {
+
+                }
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = { },
+                ) {
+                    FaIcon(faIcon = FaIcons.Search)
+                }
+            },
+            floatingActionButtonPosition = FabPosition.Center,
+            isFloatingActionButtonDocked = true,
+            drawerContent = {
+                Text("Drawer title", modifier = Modifier.padding(16.dp))
+                Divider()
+                // Drawer items
+            }
+
+        ) {
+
+            BottomDrawer(
+                drawerState = bottomDrawerState,
+                drawerContent = {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
+                        Text(
+                            text = AnnotatedString("李之阳")
+                        )
+                        Text(
+                            text = AnnotatedString("李之阳")
+                        )
+
+                        Text(
+                            text = AnnotatedString("李之阳")
+                        )
+
+                        Button(onClick = {}) {
+                            Text(
+                                text = AnnotatedString("李之阳")
+                            )
+                        }
+                    }
+                }
             ) {
-                //返回按钮
-                IconButton(onClick = { Toast.makeText(context, "返回", Toast.LENGTH_SHORT).show() }) {
-                    Icon(Icons.Filled.ArrowBack, null)
-                }
-                //标题
-                Text(
-                    "contentPadding的标题",
-                    modifier = Modifier
-                        .fillMaxWidth(0.75f)
-                        .wrapContentSize(Alignment.Center)
-                )
-                //右侧分享按钮
-                IconButton(onClick = {
-                    Toast.makeText(context, "分享", Toast.LENGTH_SHORT).show()
-                }) {
-                    Icon(Icons.Filled.Share, null)
-                }
-                //右侧设置按钮
-                IconButton(onClick = {
-                    Toast.makeText(context, "设置", Toast.LENGTH_SHORT).show()
-                }) {
-                    Icon(Icons.Filled.Settings, null)
+                ModalDrawer(
+                    drawerState = drawerState,
+                    drawerContent = {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            Text(
+                                text = AnnotatedString("李之阳")
+                            )
+                            Text(
+                                text = AnnotatedString("李之阳")
+                            )
+
+                            Text(
+                                text = AnnotatedString("李之阳")
+                            )
+
+                            Button(onClick = {}) {
+                                Text(
+                                    text = AnnotatedString("李之阳")
+                                )
+                            }
+                        }
+
+
+                    }
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(it)
+                    ) {
+
+                        Text(
+                            text = AnnotatedString("李之阳")
+                        )
+                        Text(
+                            text = AnnotatedString("李之阳")
+                        )
+
+                        Text(
+                            text = AnnotatedString("李之阳")
+                        )
+
+                        Button(onClick = {}) {
+                            Text(
+                                text = AnnotatedString("李之阳")
+                            )
+                        }
+
+                        Button(onClick = {
+                            scope.launch {
+                                scaffoldState.drawerState.apply {
+                                    if (isClosed) open() else close()
+                                }
+                            }
+                        }) {
+                            Text(
+                                text = AnnotatedString("Open Drawer")
+                            )
+                        }
+
+                        Button(onClick = {
+                            scope.launch {
+                                drawerState.apply {
+                                    if (isClosed) open() else close()
+                                }
+
+                            }
+                        }) {
+                            Text(
+                                text = AnnotatedString("Open ModalDrawer")
+                            )
+                        }
+
+                        Button(onClick = {
+                            scope.launch {
+                                bottomDrawerState.apply {
+                                    if (isClosed) open() else close()
+                                }
+
+                            }
+                        }) {
+                            Text(
+                                text = AnnotatedString("Open BottomDrawer")
+                            )
+                        }
+
+
+                        Button(
+                            onClick = { /* ... */ },
+                            // Uses ButtonDefaults.ContentPadding by default
+                            contentPadding = PaddingValues(
+                                start = 20.dp,
+                                top = 12.dp,
+                                end = 20.dp,
+                                bottom = 12.dp
+                            )
+                        ) {
+                            // Inner content including an icon and a text label
+                            Icon(
+                                Icons.Filled.Favorite,
+                                contentDescription = "Favorite",
+                                modifier = Modifier.size(ButtonDefaults.IconSize)
+                            )
+                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                            Text("Like")
+                        }
+
+                        Switch(checked = false, onCheckedChange = {})
+                        Switch(checked = true, onCheckedChange = {})
+
+                        Image(painter = painterResource(R.drawable.logo), contentDescription = "")
+
+                        TextField(value = "李之阳", onValueChange = {})
+
+                        ExtendedFloatingActionButton(
+                            onClick = { /* ... */ },
+                            icon = {
+                                Icon(
+                                    Icons.Filled.Favorite,
+                                    contentDescription = "Favorite"
+                                )
+                            },
+                            text = { Text("Like") }
+                        )
+
+                        ExtendedFloatingActionButton(
+                            text = { Text("Show snackbar") },
+                            onClick = {
+                                scope.launch {
+                                    val result = scaffoldState.snackbarHostState
+                                        .showSnackbar(
+                                            message = "Snackbar",
+                                            actionLabel = "Action",
+                                            duration = SnackbarDuration.Short
+                                        )
+                                    when (result) {
+                                        SnackbarResult.ActionPerformed -> {
+                                            /* Handle snackbar action performed */
+                                        }
+                                        SnackbarResult.Dismissed -> {
+                                            /* Handle snackbar dismissed */
+                                        }
+                                    }
+                                }
+                            }
+                        )
+
+                    }
                 }
             }
-
-            Text(
-                text = AnnotatedString("李之阳")
-            )
-            Text(
-                text = AnnotatedString("李之阳")
-            )
-
-            Text(
-                text = AnnotatedString("李之阳")
-            )
-
-            Button(onClick = {}) {
-                Text(
-                    text = AnnotatedString("李之阳")
-                )
-            }
-            Switch(checked = false, onCheckedChange = {})
-            Switch(checked = true, onCheckedChange = {})
-
-            Image(painter = painterResource(R.drawable.logo), contentDescription = "")
-
-            TextField(value = "李之阳", onValueChange = {})
-
         }
-
-
     }
 }
