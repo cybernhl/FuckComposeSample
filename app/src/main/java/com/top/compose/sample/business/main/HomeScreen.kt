@@ -71,7 +71,7 @@ fun HomeScreen(
 
     val state: LazyListState = rememberLazyListState()
 
-    var showPalletMenu = remember {
+    val showPalletMenu = remember {
         mutableStateOf(false)
     }
 
@@ -93,7 +93,7 @@ fun HomeScreen(
             }
 
         },
-        backgroundColor = Purple700,
+        backgroundColor = MaterialTheme.colors.primary,
         isImmersive = true
     ) {
 
@@ -212,7 +212,6 @@ fun Banner(banner: List<Banner>?) {
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeArticle(data: Article?, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
-    val density = LocalDensity.current
 
     val animatedProgress =
         remember { androidx.compose.animation.core.Animatable(initialValue = 0f) }
@@ -224,133 +223,128 @@ fun HomeArticle(data: Article?, modifier: Modifier = Modifier, onClick: () -> Un
     }
 
 
-    AnimatedVisibility(true) {
-        Card(
-            modifier =
-            modifier
-                .padding(horizontal = 14.dp, vertical = 4.dp)
-                .fillMaxWidth()
-                .defaultMinSize(minHeight = 120.dp)
-                .alpha(animatedProgress.value)
-                .scale(animatedProgress.value)
-                .rotate(animatedProgress.value)
-                .animateEnterExit(
-                    enter = slideInHorizontally { with(density) { -40.dp.roundToPx() } } + fadeIn(
-                        initialAlpha = 0.3f
-                    ), exit = slideOutHorizontally() + fadeOut(), label = ""
-                )
-        ) {
-            ConstraintLayout {
-                val (author, title, time, isPraise, chapter, topText, newText) = createRefs()
+    Card(
+        modifier =
+        modifier
+            .padding(horizontal = 14.dp, vertical = 4.dp)
+            .fillMaxWidth()
+            .defaultMinSize(minHeight = 120.dp)
+            .alpha(animatedProgress.value)
+            .scale(animatedProgress.value)
+            .rotate(animatedProgress.value)
 
-                Praise(
-                    modifier = Modifier
-                        .constrainAs(isPraise) {
-                            bottom.linkTo(parent.bottom)
-                            end.linkTo(parent.end)
-                        },
-                    isPraise = data?.zan != 0,
-                    onClick = onClick
-                )
+    ) {
+        ConstraintLayout {
+            val (author, title, time, isPraise, chapter, topText, newText) = createRefs()
 
-                if (!data?.shareUser.isNullOrEmpty()) {
-                    Text(
-                        text = data?.shareUser ?: "",
-                        fontSize = 12.sp,
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .constrainAs(author) {
-                                start.linkTo(parent.start)
-                                top.linkTo(parent.top)
-                                bottom.linkTo(title.top)
-                            })
-                }
+            Praise(
+                modifier = Modifier
+                    .constrainAs(isPraise) {
+                        bottom.linkTo(parent.bottom)
+                        end.linkTo(parent.end)
+                    },
+                isPraise = data?.zan != 0,
+                onClick = onClick
+            )
 
-                if (data?.top == true) {
-                    Box(
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .border(1.dp, Color.Red, RoundedCornerShape(4.dp))
-                            .constrainAs(topText) {
-                                top.linkTo(author.top)
-                                bottom.linkTo(author.bottom)
-                                start.linkTo(author.start)
-                            }
-                    ) {
-                        Text(
-                            text = "置顶",
-                            fontSize = 12.sp,
-                            color = Color.Red,
-                            modifier = Modifier
-                                .padding(horizontal = 4.dp, vertical = 2.dp)
-                        )
-                    }
-                }
-
-                if (data?.fresh == true) {
-                    Box(
-                        modifier = Modifier
-                            .border(1.dp, Color.Red, RoundedCornerShape(4.dp))
-                            .constrainAs(newText) {
-                                if (data.top) {
-                                    top.linkTo(topText.top)
-                                    bottom.linkTo(topText.bottom)
-                                    start.linkTo(topText.end)
-                                } else {
-                                    top.linkTo(author.top)
-                                    bottom.linkTo(author.bottom)
-                                    start.linkTo(author.end)
-                                }
-                            }
-                    ) {
-                        Text(
-                            text = "新",
-                            fontSize = 12.sp,
-                            color = Color.Red,
-                            modifier = Modifier
-                                .padding(horizontal = 4.dp, vertical = 2.dp)
-                        )
-                    }
-                }
-
-
+            if (!data?.shareUser.isNullOrEmpty()) {
                 Text(
-                    text = data?.niceDate ?: "",
+                    text = data?.shareUser ?: "",
                     fontSize = 12.sp,
                     modifier = Modifier
                         .padding(10.dp)
-                        .constrainAs(time) {
-                            end.linkTo(parent.end)
+                        .constrainAs(author) {
+                            start.linkTo(parent.start)
                             top.linkTo(parent.top)
                             bottom.linkTo(title.top)
                         })
+            }
 
-                Text(
-                    text = Html.fromHtml(data?.title ?: "Title", HtmlCompat.FROM_HTML_MODE_LEGACY)
-                        .toString(),
-                    textAlign = TextAlign.Left,
-                    modifier = Modifier
-                        .padding(horizontal = 10.dp)
-                        .constrainAs(title) {
-                            top.linkTo(parent.top)
-                            bottom.linkTo(parent.bottom)
-                        }
-                )
-
-                Text(
-                    text = "分类: " + data?.superChapterName + "/" + data?.chapterName,
-                    fontSize = 12.sp,
+            if (data?.top == true) {
+                Box(
                     modifier = Modifier
                         .padding(10.dp)
-                        .constrainAs(chapter) {
-                            start.linkTo(parent.start)
-                            bottom.linkTo(parent.bottom)
-                            top.linkTo(title.bottom)
-                        })
-
+                        .border(1.dp, Color.Red, RoundedCornerShape(4.dp))
+                        .constrainAs(topText) {
+                            top.linkTo(author.top)
+                            bottom.linkTo(author.bottom)
+                            start.linkTo(author.start)
+                        }
+                ) {
+                    Text(
+                        text = "置顶",
+                        fontSize = 12.sp,
+                        color = Color.Red,
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp, vertical = 2.dp)
+                    )
+                }
             }
+
+            if (data?.fresh == true) {
+                Box(
+                    modifier = Modifier
+                        .border(1.dp, Color.Red, RoundedCornerShape(4.dp))
+                        .constrainAs(newText) {
+                            if (data.top) {
+                                top.linkTo(topText.top)
+                                bottom.linkTo(topText.bottom)
+                                start.linkTo(topText.end)
+                            } else {
+                                top.linkTo(author.top)
+                                bottom.linkTo(author.bottom)
+                                start.linkTo(author.end)
+                            }
+                        }
+                ) {
+                    Text(
+                        text = "新",
+                        fontSize = 12.sp,
+                        color = Color.Red,
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp, vertical = 2.dp)
+                    )
+                }
+            }
+
+
+            Text(
+                text = data?.niceDate ?: "",
+                fontSize = 12.sp,
+                modifier = Modifier
+                    .padding(10.dp)
+                    .constrainAs(time) {
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(title.top)
+                    })
+
+            Text(
+                text = Html.fromHtml(data?.title ?: "Title", HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    .toString(),
+                textAlign = TextAlign.Left,
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .constrainAs(title) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    }
+            )
+
+            Text(
+                text = "分类: " + data?.superChapterName + "/" + data?.chapterName,
+                fontSize = 12.sp,
+                modifier = Modifier
+                    .padding(10.dp)
+                    .constrainAs(chapter) {
+                        start.linkTo(parent.start)
+                        bottom.linkTo(parent.bottom)
+                        top.linkTo(title.bottom)
+                    })
+
         }
     }
+
 
 }
 

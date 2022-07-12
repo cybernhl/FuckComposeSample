@@ -7,10 +7,28 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
+
+private val TestColorPalette = lightColors(
+    primary = Color.Red,
+    primaryVariant = Color.Black,
+    secondary = Color.Green,
+    secondaryVariant=Color.LightGray,
+    background = Color.Blue,
+    surface = Color.Gray,
+    onPrimary = Color.Cyan,
+    onSecondary = Color.DarkGray,
+    onBackground = Color.Black,
+    onSurface = Color.Magenta,
+    onError=Color.White,
+    error = Color.Yellow
+)
+
+
 private val DarkColorPalette = darkColors(
     primary = Purple200,
     primaryVariant = Purple700,
     secondary = Teal200,
+    secondaryVariant=Teal200,
     background = Color.Black,
     surface = Color.Black,
     onPrimary = Color.Black,
@@ -24,6 +42,7 @@ private val LightColorPalette = lightColors(
     primary = Purple500,
     primaryVariant = Purple700,
     secondary = Teal200,
+    secondaryVariant=Teal200,
     background = Color.White,
     surface = Color.White,
     onPrimary = Color.White,
@@ -33,8 +52,38 @@ private val LightColorPalette = lightColors(
     error = Color.Red
 )
 
+private val DartRedPalette = lightColors(
+    primary = Purple500,
+    primaryVariant = Purple700,
+    secondary = Teal200,
+    secondaryVariant=Teal200,
+    background = Color.White,
+    surface = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
+    onBackground = Color.Black,
+    onSurface = Color.Black,
+    error = Color.Red
+)
+
+
+private val LightRedPalette = lightColors(
+    primary = Purple500,
+    primaryVariant = Purple700,
+    secondary = Teal200,
+    secondaryVariant=Teal200,
+    background = Color.White,
+    surface = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
+    onBackground = Color.Black,
+    onSurface = Color.Black,
+    error = Color.Red
+)
+
+
 enum class ColorPallet(val color: Color) {
-    PURPLE(Color.Red), GREEN(Color.Green), ORANGE(Color.Yellow), BLUE(Color.Blue)
+    RED(Color.Red), GREEN(Color.Green), TEST(Color.Yellow)
 }
 
 @Composable
@@ -43,18 +92,16 @@ fun FuckComposeSampleTheme(
     colorPallet: ColorPallet = ColorPallet.GREEN,
     content: @Composable () -> Unit
 ) {
-
     val colors = when (colorPallet) {
         ColorPallet.GREEN -> if (darkTheme) DarkColorPalette else LightColorPalette
-        ColorPallet.PURPLE -> if (darkTheme) DarkColorPalette else LightColorPalette
-        ColorPallet.ORANGE -> if (darkTheme) DarkColorPalette else DarkColorPalette
-        ColorPallet.BLUE -> if (darkTheme) DarkColorPalette else LightColorPalette
-    }
+        ColorPallet.RED -> if (darkTheme) DartRedPalette else LightRedPalette
+        ColorPallet.TEST -> TestColorPalette
 
+    }
     MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
+        colors = colors,  //颜色
+        typography = Typography,  //排版
+        shapes = Shapes,  //形状
         content = content
     )
 }

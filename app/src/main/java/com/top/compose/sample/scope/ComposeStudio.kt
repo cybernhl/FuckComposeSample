@@ -1,12 +1,16 @@
 package com.top.compose.sample.business
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,27 +18,27 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.*
 import com.top.compose.sample.R
+import com.top.compose.sample.business.main.Navigation
+import com.top.compose.sample.ui.theme.ColorPallet
+import com.top.compose.sample.ui.theme.FuckComposeSampleTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-@Preview
 @Composable
 fun TwoColorBox() {
 
@@ -61,7 +65,6 @@ fun TwoColorBox() {
     }
 }
 
-@Preview
 @Composable
 fun OneColorBox(modifier: Modifier, updateColor: (Color) -> Unit) {
 
@@ -79,7 +82,6 @@ fun OneColorBox(modifier: Modifier, updateColor: (Color) -> Unit) {
         })
 }
 
-@Preview
 @Composable
 fun ModifiersTest() {
     Column(
@@ -110,7 +112,6 @@ fun ModifiersTest() {
     }
 }
 
-@Preview
 @Composable
 fun ImageCardTest() {
     val painter = painterResource(id = R.drawable.android)
@@ -129,7 +130,6 @@ fun ImageCardTest() {
     }
 }
 
-@Preview
 @Composable
 fun ImageCard(
     painter: Painter,
@@ -172,7 +172,6 @@ fun ImageCard(
     }
 }
 
-@Preview
 @Composable
 fun StyleTextTest() {
 
@@ -210,7 +209,6 @@ fun StyleTextTest() {
 }
 
 @SuppressLint("CoroutineCreationDuringComposition", "UnusedMaterialScaffoldPaddingParameter")
-@Preview
 @Composable
 fun Count() {
 
@@ -246,7 +244,6 @@ fun Count() {
 }
 
 
-@Preview
 @Composable
 fun SideEffectAndEffectHandlers() {
 
@@ -285,7 +282,7 @@ fun ConstraintTest() {
                 height = Dimension.value(100.dp)
             }
 
-            createHorizontalChain(greenBox,redBox, chainStyle = ChainStyle.Packed)
+            createHorizontalChain(greenBox, redBox, chainStyle = ChainStyle.Packed)
         }
 
         ConstraintLayout(constraintSet, modifier = Modifier.fillMaxSize()) {
@@ -313,7 +310,7 @@ fun Scaffold() {
                     rememberCoroutineScope.launch {
                         scaffoldState.drawerState.open()
                     }
-                }){
+                }) {
                     Icon(Icons.Filled.Menu, contentDescription = "")
                 }
             })
@@ -329,5 +326,73 @@ fun Scaffold() {
                 Text("昵称")
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun JueJin() {
+    FuckComposeSampleTheme(colorPallet = ColorPallet.TEST) {
+
+
+        val context = LocalContext.current
+
+        Column(modifier = Modifier.fillMaxSize()) {
+
+            TopAppBar(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(4.dp)
+            ) {
+                //返回按钮
+                IconButton(onClick = { Toast.makeText(context, "返回", Toast.LENGTH_SHORT).show() }) {
+                    Icon(Icons.Filled.ArrowBack, null)
+                }
+                //标题
+                Text(
+                    "contentPadding的标题",
+                    modifier = Modifier
+                        .fillMaxWidth(0.75f)
+                        .wrapContentSize(Alignment.Center)
+                )
+                //右侧分享按钮
+                IconButton(onClick = {
+                    Toast.makeText(context, "分享", Toast.LENGTH_SHORT).show()
+                }) {
+                    Icon(Icons.Filled.Share, null)
+                }
+                //右侧设置按钮
+                IconButton(onClick = {
+                    Toast.makeText(context, "设置", Toast.LENGTH_SHORT).show()
+                }) {
+                    Icon(Icons.Filled.Settings, null)
+                }
+            }
+
+            Text(
+                text = AnnotatedString("李之阳")
+            )
+            Text(
+                text = AnnotatedString("李之阳")
+            )
+
+            Text(
+                text = AnnotatedString("李之阳")
+            )
+
+            Button(onClick = {}) {
+                Text(
+                    text = AnnotatedString("李之阳")
+                )
+            }
+            Switch(checked = false, onCheckedChange = {})
+            Switch(checked = true, onCheckedChange = {})
+
+            Image(painter = painterResource(R.drawable.logo), contentDescription = "")
+
+            TextField(value = "李之阳", onValueChange = {})
+
+        }
+
+
     }
 }
