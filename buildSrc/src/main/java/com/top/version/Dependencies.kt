@@ -111,7 +111,8 @@ object Libs {
         }
 
         object Room{
-            const val roomVersion = "2.4.2"
+            //const val roomVersion = "2.4.2"
+            const val roomVersion = "2.2.5"
 
             const val runtime = "androidx.room:room-runtime:$roomVersion"
             const val compiler = "androidx.room:room-compiler:$roomVersion"

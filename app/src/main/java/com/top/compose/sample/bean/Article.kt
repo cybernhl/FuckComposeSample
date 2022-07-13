@@ -2,6 +2,8 @@ package com.top.compose.sample.bean
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.top.compose.sample.data.local.ListTypeConverter
 
 
 //首页文章、置顶文章
@@ -34,11 +36,17 @@ data class Article(
     val shareUser: String,
     val superChapterId: Int,
     val superChapterName: String,
-   // @TypeConverters(ListTypeConverter::class) var tags: List<Any>,
+    @TypeConverters(ListTypeConverter::class) var tags: List<Tag>,
     val title: String,
     val type: Int,
     val userId: Int,
     val visible: Int,
     val zan: Int,
     var top: Boolean = false
+)
+
+
+data class Tag(
+    val name: String,
+    val url: String
 )

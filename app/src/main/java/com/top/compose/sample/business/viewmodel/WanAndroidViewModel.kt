@@ -1,7 +1,7 @@
 package com.top.compose.sample.business.viewmodel
 
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -11,8 +11,7 @@ import com.top.compose.sample.bean.Article
 import com.top.compose.sample.bean.Banner
 import com.top.compose.sample.data.repository.WanAndroidRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
@@ -57,8 +56,7 @@ class WanAndroidViewModel @Inject constructor(
 
 
     //方式1
-    fun getArticleData(): Flow<PagingData<Article>> =
-        wanAndroidRepository.article().cachedIn(viewModelScope)
+    fun getArticleData(): Flow<PagingData<Article>> = wanAndroidRepository.article().cachedIn(viewModelScope)
 
 
     //方式 2
