@@ -10,7 +10,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 
 @Module
@@ -18,7 +17,6 @@ import javax.inject.Singleton
 class RoomModule {
 
 
-    @Singleton
     @Provides
     fun provideWanAndroidDatabase(@ApplicationContext context: Application): WanAndroidDatabase =
         Room.databaseBuilder(context.applicationContext, WanAndroidDatabase::class.java, "WanAndroid.db")
@@ -26,7 +24,6 @@ class RoomModule {
             .build()
 
 
-    @Singleton
     @Provides
     fun provideArticleDao(database: WanAndroidDatabase): ArticleDao {
         return database.articleDao()
