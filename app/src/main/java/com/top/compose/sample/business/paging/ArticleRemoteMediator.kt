@@ -12,6 +12,16 @@ class ArticleRemoteMediator : RemoteMediator<Int, Article>() {
         loadType: LoadType,
         state: PagingState<Int, Article>
     ): MediatorResult {
-        TODO("Not yet implemented")
+        when (loadType) {
+            LoadType.REFRESH -> {
+
+            }
+            LoadType.PREPEND -> {
+
+            }
+            LoadType.APPEND -> {
+
+            }
+        }
     }
 }
