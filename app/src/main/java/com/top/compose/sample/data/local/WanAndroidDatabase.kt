@@ -7,8 +7,8 @@ import com.top.compose.sample.bean.Article
 
 @Database(
     entities = [Article::class],
-    version = 1,
-    exportSchema = false
+    version = 2,
+    exportSchema = true
 )
 @TypeConverters(ListTypeConverter::class)
 abstract class WanAndroidDatabase : RoomDatabase() {

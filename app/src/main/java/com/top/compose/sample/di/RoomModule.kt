@@ -12,20 +12,20 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 
-@Module
-@InstallIn(SingletonComponent::class)
-class RoomModule {
-
-
-    @Provides
-    fun provideWanAndroidDatabase(@ApplicationContext context: Application): WanAndroidDatabase =
-        Room.databaseBuilder(context.applicationContext, WanAndroidDatabase::class.java, "WanAndroid.db")
-            .addTypeConverter(ListTypeConverter::class)
-            .build()
-
-
-    @Provides
-    fun provideArticleDao(database: WanAndroidDatabase): ArticleDao {
-        return database.articleDao()
-    }
-}
+//@Module
+//@InstallIn(SingletonComponent::class)
+//class RoomModule {
+//
+//
+//    @Provides
+//    fun provideWanAndroidDatabase(@ApplicationContext context: Application): WanAndroidDatabase =
+//        Room.databaseBuilder(context.applicationContext, WanAndroidDatabase::class.java, "WanAndroid.db")
+//            .addTypeConverter(ListTypeConverter::class)
+//            .build()
+//
+//
+//    @Provides
+//    fun provideArticleDao(database: WanAndroidDatabase): ArticleDao {
+//        return database.articleDao()
+//    }
+//}
