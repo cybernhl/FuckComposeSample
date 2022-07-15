@@ -12,6 +12,7 @@ import com.top.compose.sample.bean.Banner
 import com.top.compose.sample.data.repository.WanAndroidRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 
@@ -56,14 +57,13 @@ class WanAndroidViewModel @Inject constructor(
 
 
     //方式1
-    fun getArticleData(): Flow<PagingData<Article>> = wanAndroidRepository.article().cachedIn(viewModelScope)
+    fun getArticleData(): Flow<PagingData<Article>> =
+        wanAndroidRepository.article().cachedIn(viewModelScope)
 
 
     //方式 2
-    val articles: Flow<PagingData<Article>> = Pager(
-        config = PagingConfig(pageSize = 20, enablePlaceholders = false),
-        pagingSourceFactory = { wanAndroidRepository.articlePagingSource() }
-    ).flow.cachedIn(viewModelScope)
+    val articles: Flow<PagingData<Article>> =
+        wanAndroidRepository.articlePagingSource().cachedIn(viewModelScope)
 
 
     fun getBanner(): Flow<List<Banner>> {

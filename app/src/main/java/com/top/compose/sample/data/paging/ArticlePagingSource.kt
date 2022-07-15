@@ -1,4 +1,4 @@
-package com.top.compose.sample.business.paging
+package com.top.compose.sample.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -14,9 +14,9 @@ class ArticlePagingSource @Inject constructor(val wanAndroidService: WanAndroidS
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
         //当 Paging 库因其后备 PagingSource 中的数据发生更改而需要重新加载界面项时，系统会调用该方法。
         return null
-        val anchorPosition = state.anchorPosition ?: return null
-        val article = state.closestItemToPosition(anchorPosition) ?: return null
-        return (article.id - (state.config.pageSize / 2))
+//        val anchorPosition = state.anchorPosition ?: return null
+//        val article = state.closestItemToPosition(anchorPosition) ?: return null
+//        return (article.id - (state.config.pageSize / 2))
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {

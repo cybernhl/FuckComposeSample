@@ -89,7 +89,11 @@ dependencies {
 
     implementation Libs.AndroidX.Room.runtime
     annotationProcessor Libs.AndroidX.Room.compiler
+    kapt Libs.AndroidX.Room.compiler
     implementation Libs.AndroidX.Room.ktx
+
+
+
     implementation Libs.AndroidX.Room.paging
 
     implementation Libs.AndroidX.Compose.constraintlayout

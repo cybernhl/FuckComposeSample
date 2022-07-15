@@ -36,7 +36,7 @@ data class Article(
     val shareUser: String,
     val superChapterId: Int,
     val superChapterName: String,
-    @TypeConverters(ListTypeConverter::class) var tags: List<Tag>,
+    var tags: List<Tag>,
     val title: String,
     val type: Int,
     val userId: Int,

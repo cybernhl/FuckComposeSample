@@ -107,19 +107,28 @@ fun HomeScreen(
             state = rememberSwipeRefreshState((articles.loadState.refresh is LoadState.Loading && articles.itemCount > 0)),
             onRefresh = { articles.refresh() }
         ) {
-            if (articles.loadState.refresh is LoadState.Loading) {
-                if (articles.itemCount == 0) {
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        CircularProgressIndicator(modifier = Modifier.align(alignment = Alignment.Center))
+            when(articles.loadState.refresh){
+                is LoadState.NotLoading->{
+
+                }
+                is LoadState.Loading->{
+                    if (articles.itemCount == 0) {
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            CircularProgressIndicator(modifier = Modifier.align(alignment = Alignment.Center))
+                        }
                     }
                 }
-            } else if (articles.loadState.refresh is LoadState.Error) {
-                //加载失败的错误页面
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Button(modifier = Modifier.align(alignment = Alignment.Center),
-                        onClick = { articles.refresh() }) {
-                        Text(text = "加载失败！请重试")
+                is LoadState.Error->{
+                    //加载失败的错误页面
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        Button(modifier = Modifier.align(alignment = Alignment.Center),
+                            onClick = { articles.refresh() }) {
+                            Text(text = "加载失败！请重试")
+                        }
                     }
+                }
+                else -> {
+
                 }
             }
 

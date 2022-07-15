@@ -7,23 +7,20 @@ import com.google.gson.reflect.TypeToken
 import com.top.compose.sample.bean.Tag
 import javax.inject.Inject
 
-@ProvidedTypeConverter
-class ListTypeConverter {
+internal  class ListTypeConverter {
 
 
     @Inject
     lateinit var gson: Gson
 
     @TypeConverter
-    public  fun stringToSomeObjectList( data:String):List<Tag> {
-
+    public  fun stringTotList( data:String):List<Tag> {
         val listType = object : TypeToken<List<Any>>() {}.type
-
         return gson.fromJson(data, listType);
     }
 
     @TypeConverter
-    public fun someObjectListToString (someObjects:List<Tag>):String {
+    public fun listToString (someObjects:List<Tag>):String {
         return gson.toJson(someObjects);
     }
 }

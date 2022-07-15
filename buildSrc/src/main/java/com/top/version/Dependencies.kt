@@ -111,7 +111,7 @@ object Libs {
         }
 
         object Room{
-            const val roomVersion = "2.4.2"
+            const val roomVersion = "2.5.0-alpha02"
             //const val roomVersion = "2.2.5"
             //const val roomVersion = "2.4.0-alpha05"
 
