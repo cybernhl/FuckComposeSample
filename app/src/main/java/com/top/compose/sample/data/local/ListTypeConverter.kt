@@ -4,16 +4,15 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.top.compose.sample.bean.Tag
-import javax.inject.Inject
 
 internal class ListTypeConverter {
 
 
-    @Inject
-    lateinit var gson: Gson
+//    @Inject
+//    lateinit var gson: Gson
 
 
-    //var gson: Gson = Gson()
+    var gson: Gson = Gson()
 
 
     @TypeConverter
