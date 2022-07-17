@@ -1,13 +1,23 @@
 package com.top.compose.sample.data.local
 
+import androidx.annotation.WorkerThread
 import androidx.paging.PagingSource
 import androidx.room.*
 import com.top.compose.sample.bean.Article
 
 @Dao
 interface ArticleDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @WorkerThread
     suspend fun insert(articles: List<Article>)
+
+    @Insert
+    suspend fun insert(article: Article)
+
+    @Transaction
+    suspend fun insertAll(objects: List<Article>) = objects.forEach {
+        insert(it)
+    }
 
     @Delete
     suspend fun delete(article: Article)
@@ -22,7 +32,7 @@ interface ArticleDao {
 //    @Query("SELECT * FROM articles")
 //    suspend fun getAllArticles(): Flow<List<Article>>
 
-   // 配合Paging;  返回 PagingSource
+    // 配合Paging;  返回 PagingSource
     @Query("SELECT * FROM articles")
     fun getArticles(): PagingSource<Int, Article>
 

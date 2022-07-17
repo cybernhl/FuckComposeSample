@@ -1,6 +1,5 @@
 package com.top.compose.sample.data.paging
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -9,7 +8,6 @@ import androidx.room.withTransaction
 import com.top.compose.sample.bean.Article
 import com.top.compose.sample.data.local.WanAndroidDatabase
 import com.top.compose.sample.domain.WanAndroidService
-import java.lang.Exception
 
 @OptIn(ExperimentalPagingApi::class)
 class ArticleRemoteMediator(
@@ -70,6 +68,7 @@ class ArticleRemoteMediator(
                 if (loadType == LoadType.REFRESH) {
                     wanAndroidDatabase.articleDao().clear()
                 }
+                //wanAndroidDatabase.articleDao().insertt(article[0])
                 wanAndroidDatabase.articleDao().insert(article)
             }
 
