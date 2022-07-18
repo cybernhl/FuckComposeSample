@@ -140,13 +140,16 @@ dependencies {
     implementation ThirdLibs.Lottie.lottieCompose
     implementation Libs.AndroidX.Paging.pagingRuntime
     implementation Libs.AndroidX.Paging.pagingCompose
+
     implementation project(path: ':FuckComposeLibrary')
+    api project(path: ':FuckReactNativeLibrary')
 
     implementation("io.coil-kt:coil-compose:2.1.0")
 
     implementation 'androidx.appcompat:appcompat:1.4.2'
 
-    implementation "com.facebook.react:react-native:+" // From node_modules
-    implementation "org.webkit:android-jsc:+"
+//    implementation "com.facebook.react:react-native:+" // From node_modules
+//    implementation "org.webkit:android-jsc:+"
+
 
 }

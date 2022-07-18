@@ -45,7 +45,6 @@ class ArticleRemoteMediator(
             }
             LoadType.PREPEND -> {
                 //在当前列表头部添加数据的时候使用
-
                 return MediatorResult.Success(endOfPaginationReached = true)
             }
             LoadType.APPEND -> {

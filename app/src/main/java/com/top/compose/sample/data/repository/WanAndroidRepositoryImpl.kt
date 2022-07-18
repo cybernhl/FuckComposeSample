@@ -60,7 +60,6 @@ class WanAndroidRepositoryImpl @Inject constructor() : WanAndroidRepository {
 
 
     override fun banner(): Flow<List<Banner>> {
-
         return flow {
             val data = wanAndroidService.banner().data
             emit(data)
