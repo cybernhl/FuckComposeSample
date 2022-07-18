@@ -1,6 +1,5 @@
 package com.top.react.activity
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import com.top.react.DEFAULT_COMPONENT_NAME
 import com.top.react.Page
@@ -27,8 +26,9 @@ class LoadReactActivity : LazyLoadReactActivity() {
         mReload = getReactInstanceManager()?.let { RootViewReload(this, it) }
         //mPage = Page().url(url).name(bundleName).extras("initRouteUrl", initRouteUrl)
 
-        //mReactJsBundleFactory?.install("assets:///android_asset/","index.android.bundle")
-        reloadJSBundle("assets:///android_asset/", "index")
+        //mReactJsBundleFactory?.install("$cacheDir/index.android.bundle", "app")
+        //ReactFragment.Builder().setComponentName("").
+        reloadJSBundle("/sdcard/app/index.android.bundle3", "AwesomeProject")
     }
 
     override fun getMainComponentName(): String? {

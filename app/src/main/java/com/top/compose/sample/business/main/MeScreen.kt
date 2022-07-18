@@ -1,5 +1,6 @@
 package com.top.compose.sample.business.main
 
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -31,6 +32,7 @@ import com.top.compose.widget.GlideImage
 import com.top.compose.widget.SuperTextView
 import com.top.compose.widget.TopAppBarCenter
 import com.top.fix.sample.business.ConstantRoute
+import com.top.react.activity.LoadReactActivity
 
 
 @Composable
@@ -197,6 +199,7 @@ fun Setting(modifier: Modifier = Modifier) {
                 leftTitleString = "我的项目",
                 onClickItem = {
                     Toast.makeText(context, "Go", Toast.LENGTH_SHORT).show()
+                    context.startActivity(Intent(context,LoadReactActivity::class.java))
                 }
             )
             SuperTextView(
