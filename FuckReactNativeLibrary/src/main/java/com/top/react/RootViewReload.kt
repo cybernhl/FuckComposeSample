@@ -15,17 +15,15 @@ class RootViewReload(
     private val mActivity: Activity,
     private val mReactInstanceManager: ReactInstanceManager
 ) {
-
     @Throws(IllegalAccessException::class)
     fun setJSBundle(latestJSBundleFile: String) {
         try {
-            val latestJSBundleLoader: JSBundleLoader = if (latestJSBundleFile.lowercase(Locale.getDefault())
-                    .startsWith(ASSETS_BUNDLE_PREFIX)
-            ) {
-                JSBundleLoader.createAssetLoader(mActivity, latestJSBundleFile, false)
-            } else {
-                JSBundleLoader.createFileLoader(latestJSBundleFile)
-            }
+            val latestJSBundleLoader: JSBundleLoader =
+                if (latestJSBundleFile.lowercase(Locale.getDefault()).startsWith("assets://")) {
+                    JSBundleLoader.createAssetLoader(mActivity, latestJSBundleFile, false)
+                } else {
+                    JSBundleLoader.createFileLoader(latestJSBundleFile)
+                }
             val bundleLoaderField =
                 mReactInstanceManager.javaClass.getDeclaredField("mBundleLoader")
             bundleLoaderField.isAccessible = true
@@ -76,15 +74,14 @@ class RootViewReload(
 
     fun loadScriptFromAsset(assetName: String, loadSynchronously: Boolean) {
         val instance = mReactInstanceManager.currentReactContext!!.catalystInstance
-        val source =
-            if (assetName.startsWith(ASSETS_BUNDLE_PREFIX)) assetName else ASSETS_BUNDLE_PREFIX + assetName
+        val source = if (assetName.startsWith("assets://")) assetName else "assets://$assetName"
         instance.loadScriptFromAssets(mActivity.assets, source, loadSynchronously)
     }
 
     fun loadScriptFromFile(fileName: String?, sourceUrl: String?, loadSynchronously: Boolean) {
         val instance = mReactInstanceManager.currentReactContext!!.catalystInstance
         instance.loadScriptFromFile(fileName, sourceUrl, loadSynchronously)
-        //        try {
+//        try {
 //            Method method = CatalystInstanceImpl.class.getDeclaredMethod("loadScriptFromFile", String.class, String.class, boolean.class);
 //            method.setAccessible(true);
 //            method.invoke(instance, fileName, sourceUrl, loadSynchronously);

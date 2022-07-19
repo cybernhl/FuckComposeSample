@@ -6,20 +6,18 @@ import java.io.File
 import java.io.IOException
 import java.util.*
 
-class ReactJsBundleFactory(context: Context?, rootDir: String?) {
+class ReactJsBundleFactory(context: Context?, options: ReactNativeOptions?) {
 
     private var mContext: Context? = context
-    private var mDocumentDir: String? = rootDir
+    private var mOptions: ReactNativeOptions? = options
 
 
-    fun getContextDir(): String? {
-        return mDocumentDir
-    }
 
     @Throws(IOException::class)
     fun install(jsBundleZipPath: String?, destJsBundleFileName: String?): String? {
+
         val binFile = File(jsBundleZipPath)
-        val dist = File(mDocumentDir, destJsBundleFileName).absolutePath
+        val dist = File(mOptions?.jsBundleInstallDir, destJsBundleFileName).absolutePath
         val packageFile = File(dist)
         if (!packageFile.exists()) packageFile.mkdirs()
         val unzippedFolderPath: String = getUnzippedFolderPath()
@@ -27,6 +25,7 @@ class ReactJsBundleFactory(context: Context?, rootDir: String?) {
         FileUtils.deleteFileOrFolderSilently(binFile)
         FileUtils.copyDirectoryContents(unzippedFolderPath, dist)
         FileUtils.deleteFileAtPathSilently(unzippedFolderPath)
+
         return dist
     }
 
@@ -37,5 +36,4 @@ class ReactJsBundleFactory(context: Context?, rootDir: String?) {
             UUID.randomUUID().toString().replace("-".toRegex(), "")
         )
     }
-
 }

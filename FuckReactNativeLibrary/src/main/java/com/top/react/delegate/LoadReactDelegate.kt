@@ -202,10 +202,8 @@ class LoadReactDelegate(activity: Activity, reactNativeHost: ReactNativeHost) {
 
     fun loadApp(appKey: String?, launchOptions: Bundle?) {
         check(null == mReactRootView) { "Cannot loadApp while app is already running." }
-
         // react native 的偶现BUG
         // https://github.com/facebook/react-native/issues/28461
-
         // react native 的偶现BUG
         // https://github.com/facebook/react-native/issues/28461
         launchOptions?.remove("profile")

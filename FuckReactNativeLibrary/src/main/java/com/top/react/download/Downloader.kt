@@ -11,12 +11,9 @@ import javax.net.ssl.HttpsURLConnection
 
 class Downloader(private var mContext: Context) {
 
+    private var DOWNLOAD_BUFFER_SIZE = 1024 * 256
     private lateinit var mRequest: Request
     private val EXECUTOR_SERVICE = Executors.newFixedThreadPool(5)
-
-
-    // val onStart: () -> Unit
-
 
     fun request(request: Request): Downloader {
         this.mRequest = request
@@ -39,9 +36,7 @@ class Downloader(private var mContext: Context) {
             try {
                 val url = URL(mRequest.url)
                 connection = url.openConnection() as HttpURLConnection?
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && url.toString()
-                        .startsWith("https")
-                ) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && url.toString().startsWith("https")) {
                     (connection as HttpsURLConnection).sslSocketFactory = TLSSSocketFactory()
                 }
                 connection?.setRequestProperty("Accept-Encoding", "identity")
@@ -60,15 +55,16 @@ class Downloader(private var mContext: Context) {
                 )
 
                 fos = FileOutputStream(downloadFile)
-                bout = BufferedOutputStream(fos, 1024 * 256)
-                val data = ByteArray(1024 * 256)
+                bout = BufferedOutputStream(fos, DOWNLOAD_BUFFER_SIZE)
+                val data = ByteArray(DOWNLOAD_BUFFER_SIZE)
 
                 var numBytesRead: Int
 
-                while ((bin.read(data, 0, 1024 * 256).also { numBytesRead = it }) >= 0) {
+                while ((bin.read(data, 0, DOWNLOAD_BUFFER_SIZE).also { numBytesRead = it }) >= 0) {
                     receivedBytes += numBytesRead
                     bout.write(data, 0, numBytesRead)
                 }
+
                 fos.flush()
                 bout.flush()
 
