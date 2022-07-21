@@ -34,9 +34,7 @@ private const val DEFAULT_QUERY = "Android"
 class WanAndroidViewModel @Inject constructor(
     val wanAndroidRepository: WanAndroidRepositoryImpl,
     val savedStateHandle: SavedStateHandle
-) :
-    BaseViewModel() {
-
+) : BaseViewModel() {
 
     var userName: String?
         get() {
@@ -50,30 +48,16 @@ class WanAndroidViewModel @Inject constructor(
 
     //val accept: (HomeUiAction) -> Unit
 
-
-    init {
-        getBanner()
-    }
-
+    val  banner: Flow<List<Banner>> = wanAndroidRepository.banner()
 
     //方式1
-    fun getArticleData(): Flow<PagingData<Article>> =
-        wanAndroidRepository.article().cachedIn(viewModelScope)
-
-
+    //val articles: Flow<PagingData<Article>> = wanAndroidRepository.article().cachedIn(viewModelScope)
     //方式 2
-    val articles: Flow<PagingData<Article>> =
-        wanAndroidRepository.articlePagingSource().cachedIn(viewModelScope)
-
-
-    fun getBanner(): Flow<List<Banner>> {
-        return wanAndroidRepository.banner()
-    }
+    val articles: Flow<PagingData<Article>> = wanAndroidRepository.articlePagingSource().cachedIn(viewModelScope)
 
 
     override fun onCleared() {
         super.onCleared()
     }
-
 
 }

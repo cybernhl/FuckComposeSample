@@ -73,6 +73,11 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp-urlconnection:4.9.2")
     implementation("com.squareup.okio:okio:2.9.0")
     implementation("com.facebook.fbjni:fbjni-java-only:0.2.2")
+
     //implementation( "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.20")
+
+    implementation ("com.airbnb.android:lottie:5.2.0")
+    implementation ("com.wang.avi:library:2.1.3")
+    implementation("com.gitee.leo94666.an-library:AnArch:0.0.1-beta-2.9@aar")
 
 }

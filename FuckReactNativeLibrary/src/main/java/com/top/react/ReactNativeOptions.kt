@@ -17,12 +17,20 @@ class ReactNativeOptions : Serializable {
     lateinit var componentName: String
 
 
+    fun isAssets(): Boolean {
+        return jsBundlePath.startsWith("assets://")
+    }
+
+    fun isZip(): Boolean {
+        return jsBundlePath.endsWith(".zip")
+    }
+
     companion object {
         const val KEY = "ReactNativeOptions"
         fun default(context: Context): ReactNativeOptions {
             val options = ReactNativeOptions()
-            //options.jsBundlePath = "assets://index.android.bundle"
-            options.jsBundlePath = "assets://index_v1.android.bundle"
+            options.jsBundlePath = "https://oss.suning.com/sffe/sffe/aries/69/20220701_150537.zip"
+            //options.jsBundlePath = "assets://index_v1.android.bundle"
             //options.jsBundlePath = "assets://index_v2.android.bundle"
             //options.jsBundlePath = "assets://index_v3.android.bundle"
             options.jsBundleInstallDir = context.cacheDir.absolutePath

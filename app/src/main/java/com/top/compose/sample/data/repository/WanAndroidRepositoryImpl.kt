@@ -14,6 +14,7 @@ import com.top.compose.sample.domain.WanAndroidService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class WanAndroidRepositoryImpl @Inject constructor() : WanAndroidRepository {
@@ -24,19 +25,6 @@ class WanAndroidRepositoryImpl @Inject constructor() : WanAndroidRepository {
     @Inject
     lateinit var wanAndroidDatabase: WanAndroidDatabase
 
-
-    //fun articlePagingSource() = ArticleRemoteMediator(wanAndroidService, wanAndroidDatabase)
-
-
-//    @OptIn(ExperimentalPagingApi::class)
-//    fun articlePagingSource(): Flow<PagingData<Article>> = Pager(
-//        config = PagingConfig(pageSize = 20, enablePlaceholders = false),
-//        remoteMediator = ArticleRemoteMediator(wanAndroidService, wanAndroidDatabase)
-//    ) {
-//        wanAndroidDatabase.articleDao().getArticles()
-//    }.run {
-//        this.flow
-//    }
 
 
     @OptIn(ExperimentalPagingApi::class)

@@ -63,11 +63,10 @@ fun HomeScreen(
     appThemeState: MutableState<AppThemeState>
 ) {
 
-    //val articles = viewModel.getArticleData().collectAsLazyPagingItems()
 
     val articles = viewModel.articles.collectAsLazyPagingItems()
 
-    val banner by viewModel.getBanner().collectAsState(initial = null)
+    val banner by viewModel.banner.collectAsState(initial = null)
 
     val state: LazyListState = rememberLazyListState()
 

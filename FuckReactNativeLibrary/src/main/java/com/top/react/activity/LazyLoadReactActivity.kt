@@ -8,16 +8,25 @@ import com.facebook.react.ReactApplication
 import com.facebook.react.ReactInstanceManager
 import com.facebook.react.ReactNativeHost
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler
+import com.top.arch.loading.AVLoadingView
+import com.top.arch.loading.LoadingDialog
+import com.top.arch.loading.impl.LoadingInter
+import com.top.arch.loading.impl.LoadingView
 import com.top.react.delegate.LoadReactDelegate
+import com.top.react.load.ReactNativeLoadingView
 
-abstract class LazyLoadReactActivity : AppCompatActivity(), DefaultHardwareBackBtnHandler {
+abstract class LazyLoadReactActivity : AppCompatActivity(), DefaultHardwareBackBtnHandler, LoadingInter {
 
+
+    private var mLoadingDialog: LoadingDialog? = null
 
     private var mReactDelegate: LoadReactDelegate? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mReactDelegate = createReactActivityDelegate()
+        mLoadingDialog = LoadingDialog(this, LoadingView())
+
     }
 
     override fun onPause() {
@@ -28,13 +37,11 @@ abstract class LazyLoadReactActivity : AppCompatActivity(), DefaultHardwareBackB
     override fun onResume() {
         super.onResume()
         mReactDelegate?.onHostResume()
-
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mReactDelegate?.onHostDestroy()
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -58,7 +65,7 @@ abstract class LazyLoadReactActivity : AppCompatActivity(), DefaultHardwareBackB
     }
 
     override fun onBackPressed() {
-        if (mReactDelegate?.onBackPressed() != true){
+        if (mReactDelegate?.onBackPressed() != true) {
             super.onBackPressed()
         }
     }
@@ -78,7 +85,7 @@ abstract class LazyLoadReactActivity : AppCompatActivity(), DefaultHardwareBackB
 
     }
 
-    override fun onWindowFocusChanged( hasFocus:Boolean) {
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         mReactDelegate?.onWindowFocusChanged(hasFocus)
     }
@@ -118,6 +125,17 @@ abstract class LazyLoadReactActivity : AppCompatActivity(), DefaultHardwareBackB
         return mReactDelegate!!.getReactNativeHost()
     }
 
+    open fun LoadingView(): LoadingView? {
+        //return new LottieLoadingView();
+        return ReactNativeLoadingView()
+    }
 
+    override fun showLoading() {
+        runOnUiThread { if (null != mLoadingDialog) mLoadingDialog?.show() }
+    }
+
+    override fun hideLoading() {
+        runOnUiThread { if (null != mLoadingDialog) mLoadingDialog?.dismiss() }
+    }
 
 }

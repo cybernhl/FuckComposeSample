@@ -7,6 +7,7 @@ import com.top.compose.sample.bean.Article
 
 @Dao
 interface ArticleDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @WorkerThread
     suspend fun insert(articles: List<Article>)

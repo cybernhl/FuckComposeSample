@@ -2,6 +2,8 @@ package com.top.react.activity
 
 import android.os.Bundle
 import com.top.react.*
+import com.top.react.download.Downloader
+import com.top.react.download.Request
 
 class LoadReactActivity : LazyLoadReactActivity() {
 
@@ -12,7 +14,9 @@ class LoadReactActivity : LazyLoadReactActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         var options = intent.getSerializableExtra(ReactNativeOptions.KEY) as ReactNativeOptions?
+
         if (null == options) {
             options = ReactNativeOptions.default(this)
         }
@@ -23,10 +27,36 @@ class LoadReactActivity : LazyLoadReactActivity() {
             RootViewReload(this, it)
         }
         //mReactJsBundleFactory?.install("$cacheDir/index.android.bundle", "app")
-        reloadJSBundle(
-            options.jsBundlePath,
-            options.componentName
-        )
+        if (options.isAssets()) {
+            reloadJSBundle(
+                options.jsBundlePath,
+                options.componentName
+            )
+            //hideLoading()
+        } else {
+            val downloader = Downloader(this)
+
+            val request: Request = Request
+                .Builder()
+                .url(options.jsBundlePath)
+                .build()
+
+            downloader
+                .request(request)
+                .execute({
+                    showLoading()
+                }, {
+                    reloadJSBundle(
+                        it,
+                        options.componentName
+                    )
+                    hideLoading()
+                }, {
+                    hideLoading()
+                }, {
+
+                })
+        }
     }
 
     override fun getMainComponentName(): String? {
@@ -55,13 +85,5 @@ class LoadReactActivity : LazyLoadReactActivity() {
         return mainComponentName
     }
 
-
-    private fun showLoading() {
-        //runOnUiThread { if (null != loadingDialog) loadingDialog.show() }
-    }
-
-    private fun dismissLoading() {
-        //runOnUiThread { if (null != loadingDialog) loadingDialog.dismiss() }
-    }
 
 }

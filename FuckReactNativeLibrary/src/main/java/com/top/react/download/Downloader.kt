@@ -21,11 +21,12 @@ class Downloader(private var mContext: Context) {
     }
 
     fun execute(
-        onStart: () -> Unit,
-        onComplete: () -> Unit,
-        onError: (Exception) -> Unit,
-        onProcess: () -> Unit
+        onStart: () -> Unit = {},
+        onComplete: (String) -> Unit = {},
+        onError: (Exception) -> Unit = {},
+        onProcess: (DownloadProcess) -> Unit = {}
     ) {
+        onStart.invoke()
         EXECUTOR_SERVICE.execute {
             var connection: HttpURLConnection? = null
             var bin: BufferedInputStream? = null
@@ -36,14 +37,16 @@ class Downloader(private var mContext: Context) {
             try {
                 val url = URL(mRequest.url)
                 connection = url.openConnection() as HttpURLConnection?
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && url.toString().startsWith("https")) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && url.toString()
+                        .startsWith("https")
+                ) {
                     (connection as HttpsURLConnection).sslSocketFactory = TLSSSocketFactory()
                 }
                 connection?.setRequestProperty("Accept-Encoding", "identity")
                 bin = BufferedInputStream(connection?.inputStream)
 
-                val totalBytes = connection?.contentLength
-                var receivedBytes = 0
+                val totalBytes = connection?.contentLength?.toLong()
+                var receivedBytes = 0L
                 val downloadFolder = File(mContext.cacheDir, "")
                 val canMkdir: Boolean = downloadFolder.mkdirs()
                 val path: String = url.path
@@ -63,15 +66,17 @@ class Downloader(private var mContext: Context) {
                 while ((bin.read(data, 0, DOWNLOAD_BUFFER_SIZE).also { numBytesRead = it }) >= 0) {
                     receivedBytes += numBytesRead
                     bout.write(data, 0, numBytesRead)
+                    checkNotNull(totalBytes)
+                    onProcess.invoke(DownloadProcess(totalBytes, receivedBytes))
                 }
 
                 fos.flush()
                 bout.flush()
 
                 if (totalBytes == receivedBytes) {
-                    //callback.onComplete(downloadFile.absolutePath)
+                    onComplete.invoke(downloadFolder.absolutePath)
                 } else {
-                    //callback.onError(RuntimeException("Received $receivedBytes bytes, expected $totalBytes"))
+                    onError.invoke(RuntimeException("Received $receivedBytes bytes, expected $totalBytes"))
                 }
 
             } catch (e: Exception) {
@@ -83,7 +88,7 @@ class Downloader(private var mContext: Context) {
                     bin?.close()
                     connection?.disconnect()
                 } catch (e: IOException) {
-                    throw RuntimeException("Error closing IO resources.", e)
+                    onError.invoke(RuntimeException("Error closing IO resources.", e))
                 }
             }
 
