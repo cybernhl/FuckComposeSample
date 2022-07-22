@@ -35,7 +35,7 @@ interface ArticleDao {
 
     // 配合Paging;  返回 PagingSource
     @Query("SELECT * FROM articles")
-    fun getArticles(): PagingSource<Int, Article>
+    fun getArticlesPagingSource(): PagingSource<Int, Article>
 
 //    @Query("SELECT * FROM articles")
 //    suspend fun lastUpdated():Long

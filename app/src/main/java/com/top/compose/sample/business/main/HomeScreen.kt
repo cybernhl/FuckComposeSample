@@ -18,6 +18,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.*
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.asLiveData
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
@@ -47,6 +49,7 @@ import com.top.compose.icon.FaIcons
 import com.top.compose.sample.bean.Article
 import com.top.compose.sample.bean.Banner
 import com.top.compose.sample.bean.HomeArticle
+import com.top.compose.sample.business.viewmodel.HomeUiAction
 import com.top.compose.sample.business.viewmodel.WanAndroidViewModel
 import com.top.compose.sample.ui.theme.AppThemeState
 import com.top.compose.sample.ui.theme.ColorPallet
@@ -55,6 +58,7 @@ import com.top.compose.widget.GlideImage
 import com.top.compose.widget.TopAppBarCenter
 import com.top.compose.widget.showDialog
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 
 @Composable
 fun HomeScreen(
@@ -67,6 +71,7 @@ fun HomeScreen(
     val articles = viewModel.articles.collectAsLazyPagingItems()
 
     val banner by viewModel.banner.collectAsState(initial = null)
+
 
     val state: LazyListState = rememberLazyListState()
 
@@ -106,18 +111,18 @@ fun HomeScreen(
             state = rememberSwipeRefreshState((articles.loadState.refresh is LoadState.Loading && articles.itemCount > 0)),
             onRefresh = { articles.refresh() }
         ) {
-            when(articles.loadState.refresh){
-                is LoadState.NotLoading->{
+            when (articles.loadState.refresh) {
+                is LoadState.NotLoading -> {
 
                 }
-                is LoadState.Loading->{
+                is LoadState.Loading -> {
                     if (articles.itemCount == 0) {
                         Box(modifier = Modifier.fillMaxSize()) {
                             CircularProgressIndicator(modifier = Modifier.align(alignment = Alignment.Center))
                         }
                     }
                 }
-                is LoadState.Error->{
+                is LoadState.Error -> {
                     //加载失败的错误页面
                     Box(modifier = Modifier.fillMaxSize()) {
                         Button(modifier = Modifier.align(alignment = Alignment.Center),
@@ -136,9 +141,7 @@ fun HomeScreen(
                     if (index == 0) {
                         Banner(banner)
                     } else {
-                        HomeArticle(data) {
-
-                        }
+                        HomeArticle(data)
                     }
                 }
 
@@ -157,8 +160,6 @@ fun HomeScreen(
 
             })
         }
-
-
     }
 }
 
@@ -217,18 +218,25 @@ fun Banner(banner: List<Banner>?) {
 
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun HomeArticle(data: Article?, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+fun HomeArticle(
+    data: Article?,
+    viewModel: WanAndroidViewModel = hiltViewModel(),
+    modifier: Modifier = Modifier
+) {
 
     val animatedProgress =
         remember { androidx.compose.animation.core.Animatable(initialValue = 0f) }
+
     LaunchedEffect(Unit) {
         animatedProgress.animateTo(
             targetValue = 1f,
             animationSpec = tween(600)
         )
     }
+
+    val zan = viewModel.zan.collectAsState(false)
+
 
 
     Card(
@@ -251,8 +259,10 @@ fun HomeArticle(data: Article?, modifier: Modifier = Modifier, onClick: () -> Un
                         bottom.linkTo(parent.bottom)
                         end.linkTo(parent.end)
                     },
-                isPraise = data?.zan != 0,
-                onClick = onClick
+                isPraise = zan.value,
+                onClick = {
+                    //viewModel.collect(data?.id ?: 0)
+                }
             )
 
             if (!data?.shareUser.isNullOrEmpty()) {

@@ -7,11 +7,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface WanAndroidRepository {
 
+
+    fun articlePagingSource(): Flow<PagingData<Article>>
+
+
     fun article(): Flow<PagingData<Article>>
 
     fun banner(): Flow<List<Banner>>
 
-    suspend fun bannerr(): List<Banner>
-
+    fun collect(id: Int): Flow<Boolean>
 
 }

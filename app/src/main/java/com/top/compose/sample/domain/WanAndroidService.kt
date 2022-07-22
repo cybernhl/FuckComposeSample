@@ -46,4 +46,10 @@ interface WanAndroidService {
 
     @GET("banner/json")
     suspend fun banner(): TResponse<List<Banner>>
+
+
+    //收藏站内
+    @POST("collect/{id}/json")
+    suspend fun collect(@Path("id") id: Int): TResponse<Void>
+
 }

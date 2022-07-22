@@ -38,45 +38,45 @@ class DbReadWriteTest {
     @Test
     @Throws(Exception::class)
     fun writeUserAndReadInList() {
-        val article = Article(
-            0,
-            "",
-            0,
-            "",
-            true,
-            0,
-            "",
-            true,
-            0,
-            "",
-            "",
-            "",
-            false,
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            1000,
-            1000,
-            0,
-            1000,
-            "",
-            0,
-            "",
-            null,
-            "",
-            0,
-            0,
-            0,
-            0,
-            true
-        )
-
-        runBlocking {
-            articleDao.insert(article)
-        }
+//        val article = Article(
+//            0,
+//            "",
+//            0,
+//            "",
+//            true,
+//            0,
+//            "",
+//            true,
+//            0,
+//            "",
+//            "",
+//            "",
+//            false,
+//            "",
+//            "",
+//            "",
+//            "",
+//            "",
+//            "",
+//            "",
+//            1000,
+//            1000,
+//            0,
+//            1000,
+//            "",
+//            0,
+//            "",
+//            ,
+//            "",
+//            0,
+//            0,
+//            0,
+//            0,
+//            true
+//        )
+//
+//        runBlocking {
+//            articleDao.insert(article)
+//        }
     }
 }

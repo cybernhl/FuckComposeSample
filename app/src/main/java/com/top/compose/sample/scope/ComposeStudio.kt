@@ -32,12 +32,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.*
+import androidx.navigation.NavHostController
 import com.top.compose.icon.FaIcon
 import com.top.compose.icon.FaIcons
 import com.top.compose.sample.R
 import com.top.compose.sample.ui.theme.ColorPallet
 import com.top.compose.sample.ui.theme.FuckComposeSampleTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -600,5 +602,31 @@ fun JueJin() {
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun HomeCompos() {
+    val flow = flow<String> {
+        emit("Hello ")
+        delay(2000)
+        emit("Hello 345")
+        delay(2000)
+        emit("fuck you")
+
+    }
+    val flowState = flow.collectAsState("345")
+
+
+    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
+        Button(onClick = {}) {
+            if (flowState.value.isEmpty()) {
+                Text(text = "hello", fontSize = 50.sp)
+            } else {
+                Text(text = flowState.value, fontSize = 50.sp)
+            }
+        }
+
     }
 }
